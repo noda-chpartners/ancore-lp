@@ -1,8 +1,15 @@
 ---
+import { Icon } from 'astro-icon/components';
+
 interface Props {
   content: {
+    sns: readonly {
+      label: string;
+      href: string;
+      icon: string;
+    }[];
     copyright: string;
-  }
+  };
 }
 
 const { content } = Astro.props;
@@ -10,7 +17,20 @@ const { content } = Astro.props;
 
 <footer class="footer">
   <div class="footer__inner">
-
+    <div class="footer__sns">
+      <p class="footer__sns_title">SNS</p>
+      <ul class="footer__sns_list">
+        {
+          content.sns.map((item) => (
+            <li class="footer__sns_item">
+              <a href={item.href} class="footer__sns_link">
+                <Icon class="footer__sns_icon" name={item.icon} />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
   </div>
   <small class="copyright">&copy; {content.copyright}</small>
 </footer>
@@ -19,14 +39,36 @@ const { content } = Astro.props;
   @use '../styles/mixins' as *;
   .footer {
     width: 100%;
+    
     &__inner {
       width: 98%;
-      padding: 10px;
+      padding: 10px 20px;
       margin: 0 auto;
       border-radius: 50px;
       background-color: #ffb452;
     }
+
+    &__sns {
+      &_title {
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+      }
+      &_list {
+
+      }
+      &_item {
+
+      }
+      &_link {
+
+      }
+      &_icon {
+
+      }
+    }
   }
+
   .copyright {
     display: flex;
     justify-content: center;

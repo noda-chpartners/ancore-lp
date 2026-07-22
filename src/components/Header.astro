@@ -76,5 +76,13 @@ const { content } = Astro.props;
       }
     }
   }
+
+  @include bp {
+    .header {
+      &__nav {
+        display: none;
+      }
+    }
+  }
   
 </style>
