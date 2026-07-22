@@ -1,0 +1,80 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+interface Props {
+  content: {
+    logo: {
+      src: ImageMetadata,
+      alt: string;
+    },
+    nav: readonly {
+      label: string;
+      href: string;
+      isButton?: boolean;
+    }[];
+  },
+}
+
+const { content } = Astro.props;
+---
+
+<header class="header">
+  <div class="header__inner">
+    <h1 class="header__logo">
+      <a href="/" class="header__logo_link">
+        <Image class="header__logo_img" src={content.logo.src} alt={content.logo.alt} />
+      </a>
+    </h1>
+    <nav class="header__nav">
+      <ul class="header__nav_list">
+        {content.nav.map((item) => (
+          <li class="header__nav_item">
+            <a class={item.isButton ? 'header__nav_link header__nav_cta' : 'header__nav_link'} href={item.href}>{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style lang="scss">
+  @use '../styles/mixins' as *;
+  .header {
+    width: 100%;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    &__inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 90%;
+      margin: 0 auto;
+      padding: 10px;
+    }
+    &__logo {
+      max-width: 60px;
+      &_link {}
+      &_img {}
+    }
+    &__nav {
+      &_list {
+        display: flex;
+        gap: 20px;
+      }
+      &_item {
+
+      }
+      &_link {
+        padding: 10px;
+      }
+      &_cta {
+        padding: 10px 15px;
+        border-radius: 50px;
+        background-color: #ffb452;
+        color: #fff;
+      }
+    }
+  }
+  
+</style>
