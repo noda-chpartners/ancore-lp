@@ -1,0 +1,207 @@
+---
+interface Props {
+  content: readonly {
+    number: string;
+    name: string;
+    title: string;
+    description: string;
+  }[];
+}
+
+const { content } = Astro.props;
+---
+
+<section class="values section" id="values">
+  <div class="values__glow values__glow--one"></div>
+  <div class="values__glow values__glow--two"></div>
+
+  <div class="container">
+    <div class="section-heading js-reveal">
+      <p class="eyebrow">OUR VALUES</p>
+      <h2 class="section-title">
+        <span class="title-line">挑戦を、歓声に変える</span>
+        <span class="title-line">5つの約束。</span>
+      </h2>
+      <p class="section-lead">
+        迷った時に立ち返る、Ancoreの行動指針。
+      </p>
+    </div>
+
+    <ol class="values__list">
+      {
+        content.map((value) => (
+          <li class="values__item js-reveal">
+            <article class="values__card">
+              <div class="values__meta">
+                <span class="values__number">{value.number}</span>
+                <span class="values__name">{value.name}</span>
+              </div>
+              <h3 class="values__title">{value.title}</h3>
+              <p class="values__description">{value.description}</p>
+              <span class="values__spark" aria-hidden="true"></span>
+            </article>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style lang="scss">
+  .values {
+    overflow: hidden;
+    background:
+      linear-gradient(rgba(255, 248, 233, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 248, 233, 0.035) 1px, transparent 1px),
+      var(--color-night);
+    background-size: 72px 72px;
+
+    &__glow {
+      position: absolute;
+      width: 28rem;
+      height: 28rem;
+      border-radius: 50%;
+      opacity: 0.18;
+      background: var(--color-orange);
+      filter: blur(110px);
+      pointer-events: none;
+
+      &--one {
+        top: 5%;
+        right: -12rem;
+      }
+
+      &--two {
+        bottom: 3%;
+        left: -14rem;
+      }
+    }
+
+    &__list {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    &__item {
+      grid-column: span 4;
+
+      &:nth-child(4),
+      &:nth-child(5) {
+        grid-column: span 6;
+      }
+    }
+
+    &__card {
+      position: relative;
+      height: 100%;
+      min-height: 21rem;
+      overflow: hidden;
+      padding: clamp(1.5rem, 3vw, 2.5rem);
+      border: 1px solid rgba(255, 248, 233, 0.13);
+      background: linear-gradient(145deg, rgba(255, 248, 233, 0.07), rgba(255, 248, 233, 0.015));
+      transition:
+        transform 0.35s ease,
+        border-color 0.35s ease,
+        background-color 0.35s ease;
+
+      &:hover {
+        border-color: rgba(255, 197, 47, 0.58);
+        background: rgba(255, 148, 24, 0.09);
+        transform: translateY(-0.45rem);
+      }
+    }
+
+    &__meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--color-gold);
+      font-family: var(--font-display);
+      font-size: 0.65rem;
+      font-weight: 900;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    &__number {
+      font-size: 1rem;
+    }
+
+    &__title {
+      margin-top: clamp(4rem, 7vw, 6.5rem);
+      font-size: clamp(1.35rem, 2.2vw, 2rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    &__description {
+      max-width: 22rem;
+      margin-top: 0.75rem;
+      color: rgba(255, 248, 233, 0.65);
+      font-size: 0.85rem;
+      letter-spacing: 0.03em;
+    }
+
+    &__spark {
+      position: absolute;
+      right: -2.5rem;
+      bottom: -2.5rem;
+      width: 8rem;
+      height: 8rem;
+      border: 1px solid rgba(255, 197, 47, 0.24);
+      border-radius: 50%;
+
+      &::before,
+      &::after {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        background: rgba(255, 197, 47, 0.32);
+        content: "";
+        transform: translate(-50%, -50%);
+      }
+
+      &::before {
+        width: 10rem;
+        height: 1px;
+      }
+
+      &::after {
+        width: 1px;
+        height: 10rem;
+      }
+    }
+  }
+
+  @media (max-width: 900px) {
+    .values {
+      &__item {
+        grid-column: span 6;
+
+        &:nth-child(5) {
+          grid-column: 4 / span 6;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 560px) {
+    .values {
+      &__list {
+        grid-template-columns: 1fr;
+      }
+
+      &__item,
+      &__item:nth-child(4),
+      &__item:nth-child(5) {
+        grid-column: 1;
+      }
+
+      &__card {
+        min-height: 17rem;
+      }
+    }
+  }
+</style>

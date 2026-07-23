@@ -1,0 +1,85 @@
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const initMotion = () => {
+    if (reduceMotion) {
+      gsap.set('.js-hero-item, .js-reveal, .js-gallery-item', {
+        clearProps: 'all',
+      });
+      return;
+    }
+
+    const context = gsap.context(() => {
+      gsap
+        .timeline({ defaults: { ease: 'power3.out' } })
+        .from('.js-hero-item', {
+          y: 30,
+          opacity: 0,
+          duration: 0.68,
+          stagger: 0.08,
+          delay: 0.05,
+        });
+
+      gsap.utils.toArray<HTMLElement>('.js-reveal').forEach((element) => {
+        gsap.from(element, {
+          y: 64,
+          opacity: 0,
+          duration: 1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: element,
+            start: 'top 86%',
+            once: true,
+          },
+        });
+      });
+
+      gsap.from('.js-gallery-item', {
+        y: 90,
+        opacity: 0,
+        scale: 0.96,
+        duration: 1,
+        stagger: 0.08,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '[data-gallery]',
+          start: 'top 78%',
+          once: true,
+        },
+      });
+
+      gsap.to('[data-parallax-media]', {
+        yPercent: 10,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 0.6,
+        },
+      });
+
+      gsap.to('[data-parallax-image] .identity__photo', {
+        yPercent: 10,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '[data-parallax-image]',
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 0.7,
+        },
+      });
+    });
+
+    document.addEventListener('astro:before-swap', () => context.revert(), {
+      once: true,
+    });
+  };
+
+  initMotion();
+</script>

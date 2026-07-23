@@ -1,12 +1,153 @@
 ---
+interface Props {
+  content: readonly {
+    number: string;
+    title: string;
+  }[];
+}
+
+const { content } = Astro.props;
 ---
 
-<section class="section" id="business">
-  <div class="section__inner">
+<section class="business section" id="business">
+  <div class="container">
+    <div class="business__heading section-heading js-reveal">
+      <p class="eyebrow">OUR BUSINESS</p>
+      <h2 class="business__title section-title">
+        <span class="title-line">挑戦のフィールドは、</span>
+        <span class="title-line">ひとつじゃない。</span>
+      </h2>
+      <p class="business__lead section-lead">
+        Ancoreが取り組む5つの事業領域。
+      </p>
+    </div>
 
+    <ol class="business__list">
+      {
+        content.map((item) => (
+          <li class="business__item js-reveal">
+            <span class="business__number">{item.number}</span>
+            <h3 class="business__item-title">
+              {item.title.split('\n').map((line) => <span class="business__title-line">{line}</span>)}
+            </h3>
+            <span class="business__arrow" aria-hidden="true">↗</span>
+          </li>
+        ))
+      }
+    </ol>
   </div>
 </section>
 
 <style lang="scss">
-  @use '../styles/mixins' as *;
+  .business {
+    color: var(--color-night);
+    background: var(--color-gold);
+
+    &::before {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 36%;
+      height: 100%;
+      opacity: 0.32;
+      background:
+        repeating-linear-gradient(
+          -45deg,
+          transparent 0,
+          transparent 14px,
+          rgba(247, 91, 17, 0.18) 15px,
+          rgba(247, 91, 17, 0.18) 16px
+        );
+      content: "";
+      pointer-events: none;
+    }
+
+    &__heading {
+      position: relative;
+
+      :global(.eyebrow) {
+        color: var(--color-orange);
+      }
+    }
+
+    &__title {
+      color: var(--color-night);
+    }
+
+    &__lead {
+      color: rgba(23, 17, 12, 0.68);
+    }
+
+    &__list {
+      position: relative;
+      border-top: 1px solid rgba(23, 17, 12, 0.35);
+    }
+
+    &__item {
+      display: grid;
+      grid-template-columns: 6rem 1fr auto;
+      align-items: center;
+      gap: 2rem;
+      min-height: 8.5rem;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid rgba(23, 17, 12, 0.35);
+      transition:
+        padding-left 0.35s ease,
+        background-color 0.35s ease;
+
+      &:hover {
+        padding-left: 1.25rem;
+        background: rgba(255, 248, 233, 0.28);
+      }
+    }
+
+    &__number {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+    }
+
+    &__item-title {
+      font-size: clamp(1.2rem, 2.6vw, 2.25rem);
+      font-weight: 900;
+      letter-spacing: -0.035em;
+      line-height: 1.35;
+    }
+
+    &__title-line {
+      display: block;
+      white-space: nowrap;
+    }
+
+    &__arrow {
+      display: grid;
+      width: 3rem;
+      height: 3rem;
+      place-items: center;
+      border: 1px solid rgba(23, 17, 12, 0.42);
+      border-radius: 50%;
+      font-size: 1.15rem;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .business {
+      &__item {
+        grid-template-columns: 2.25rem 1fr auto;
+        gap: 0.75rem;
+        min-height: 7.5rem;
+      }
+
+      &__item-title {
+        font-size: clamp(1rem, 4.7vw, 1.5rem);
+      }
+
+      &__arrow {
+        width: 2.3rem;
+        height: 2.3rem;
+        font-size: 0.9rem;
+      }
+    }
+  }
 </style>

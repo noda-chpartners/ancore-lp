@@ -1,13 +1,15 @@
 ---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
 
 interface Props {
   content: {
-    sns: readonly {
-      label: string;
-      href: string;
-      icon: string;
-    }[];
+    logo: {
+      src: ImageMetadata;
+      alt: string;
+    };
+    instagram: string;
     copyright: string;
   };
 }
@@ -16,66 +18,142 @@ const { content } = Astro.props;
 ---
 
 <footer class="footer">
-  <div class="footer__inner">
-    <div class="footer__sns">
-      <p class="footer__sns_title">SNS</p>
-      <ul class="footer__sns_list">
-        {
-          content.sns.map((item) => (
-            <li class="footer__sns_item">
-              <a href={item.href} class="footer__sns_link">
-                <Icon class="footer__sns_icon" name={item.icon} />
-              </a>
-            </li>
-          ))
-        }
-      </ul>
+  <div class="footer__inner container">
+    <div class="footer__top">
+      <a class="footer__logo-link" href="#top" aria-label="ページ上部へ戻る">
+        <Image
+          class="footer__logo"
+          src={content.logo.src}
+          alt={content.logo.alt}
+          width={180}
+          quality={90}
+        />
+      </a>
+
+      <p class="footer__statement">
+        <span class="footer__statement-line">もう一度、</span>
+        <span class="footer__statement-line">本気になれる瞬間を創る。</span>
+      </p>
+    </div>
+
+    <div class="footer__bottom">
+      <p class="footer__copyright">&copy; {content.copyright}</p>
+      <a
+        class="footer__social"
+        href={content.instagram}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="AncoreのInstagramを見る"
+      >
+        <Icon class="footer__social-icon" name="simple-icons:instagram" />
+        <span class="footer__social-label">Instagram</span>
+      </a>
+      <a class="footer__back" href="#top">
+        <span class="footer__back-label">BACK TO TOP</span>
+        <span class="footer__back-arrow" aria-hidden="true">↑</span>
+      </a>
     </div>
   </div>
-  <small class="copyright">&copy; {content.copyright}</small>
 </footer>
 
 <style lang="scss">
-  @use '../styles/mixins' as *;
   .footer {
-    width: 100%;
-    
-    &__inner {
-      width: 98%;
-      padding: 10px 20px;
-      margin: 0 auto;
-      border-radius: 50px;
-      background-color: #ffb452;
+    padding: clamp(3.5rem, 8vw, 6.5rem) 0 1.5rem;
+    background: var(--color-night);
+
+    &__top {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2rem;
+      padding-bottom: clamp(3rem, 7vw, 5rem);
+      border-bottom: 1px solid rgba(255, 248, 233, 0.15);
     }
 
-    &__sns {
-      &_title {
-        font-size: 0.8rem;
-        font-weight: 700;
-        letter-spacing: 0.12em;
-      }
-      &_list {
+    &__logo-link {
+      display: block;
+      width: clamp(8rem, 13vw, 11.25rem);
+    }
 
-      }
-      &_item {
+    &__logo {
+      width: 100%;
+      height: auto;
+    }
 
-      }
-      &_link {
+    &__statement {
+      color: rgba(255, 248, 233, 0.72);
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.4;
+      text-align: right;
+    }
 
-      }
-      &_icon {
+    &__statement-line {
+      display: block;
+      white-space: nowrap;
+    }
 
+    &__bottom {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      gap: clamp(1rem, 3vw, 2.5rem);
+      padding-top: 1.5rem;
+      color: rgba(255, 248, 233, 0.48);
+      font-family: var(--font-display);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+    }
+
+    &__social,
+    &__back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      transition: color 0.25s ease;
+
+      &:hover {
+        color: var(--color-gold);
       }
+    }
+
+    &__social-icon {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    &__back-arrow {
+      display: grid;
+      width: 2.25rem;
+      height: 2.25rem;
+      place-items: center;
+      border: 1px solid rgba(255, 248, 233, 0.24);
+      border-radius: 50%;
+      font-size: 1rem;
     }
   }
 
-  .copyright {
-    display: flex;
-    justify-content: center;
-    padding: 4px;
-    color: #4d4c4c;
-    font-size: 0.4rem;
-    letter-spacing: 0.1em;
-    pointer-events: none;
+  @media (max-width: 600px) {
+    .footer {
+      &__top {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      &__statement {
+        text-align: left;
+      }
+
+      &__bottom {
+        grid-template-columns: 1fr auto;
+      }
+
+      &__copyright {
+        grid-column: 1 / -1;
+        grid-row: 2;
+      }
+    }
   }
 </style>

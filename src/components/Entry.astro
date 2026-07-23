@@ -1,0 +1,292 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  content: {
+    eyebrow: string;
+    titleLines: readonly string[];
+    description: string;
+    phone: {
+      label: string;
+      display: string;
+      href: string;
+      hours: string;
+    };
+    instagram: {
+      label: string;
+      href: string;
+    };
+  };
+}
+
+const { content } = Astro.props;
+---
+
+<section class="entry section" id="entry">
+  <div class="entry__beam entry__beam--left"></div>
+  <div class="entry__beam entry__beam--right"></div>
+  <div class="entry__confetti" aria-hidden="true">
+    <span class="entry__piece entry__piece--1"></span>
+    <span class="entry__piece entry__piece--2"></span>
+    <span class="entry__piece entry__piece--3"></span>
+    <span class="entry__piece entry__piece--4"></span>
+    <span class="entry__piece entry__piece--5"></span>
+    <span class="entry__piece entry__piece--6"></span>
+  </div>
+
+  <div class="entry__inner container js-reveal">
+    <p class="entry__eyebrow">{content.eyebrow}</p>
+    <h2 class="entry__title">
+      {
+        content.titleLines.map((line) => (
+          <span class="entry__title-line">{line}</span>
+        ))
+      }
+    </h2>
+    <p class="entry__description">{content.description}</p>
+
+    <div class="entry__actions">
+      <a class="entry__phone" href={content.phone.href}>
+        <span class="entry__action-label">{content.phone.label}</span>
+        <span class="entry__phone-number">{content.phone.display}</span>
+        <span class="entry__hours">{content.phone.hours}</span>
+      </a>
+      <a
+        class="entry__instagram"
+        href={content.instagram.href}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Icon class="entry__instagram-icon" name="simple-icons:instagram" />
+        <span class="entry__instagram-label">{content.instagram.label}</span>
+        <span class="entry__instagram-arrow" aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  .entry {
+    display: grid;
+    min-height: min(56rem, 90vh);
+    place-items: center;
+    overflow: hidden;
+    color: var(--color-night);
+    background:
+      radial-gradient(circle at 50% 75%, rgba(255, 248, 233, 0.52), transparent 28%),
+      linear-gradient(120deg, var(--color-gold), var(--color-amber) 58%, var(--color-orange));
+
+    &__beam {
+      position: absolute;
+      top: -20%;
+      width: 46%;
+      height: 130%;
+      opacity: 0.42;
+      background: linear-gradient(180deg, rgba(255, 248, 233, 0.68), transparent 65%);
+      filter: blur(2px);
+      clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
+      pointer-events: none;
+
+      &--left {
+        left: -5%;
+        transform: rotate(-12deg);
+      }
+
+      &--right {
+        right: -5%;
+        transform: rotate(12deg);
+      }
+    }
+
+    &__inner {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      justify-items: center;
+      text-align: center;
+    }
+
+    &__eyebrow {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.32em;
+    }
+
+    &__title {
+      margin-top: 1.25rem;
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8.5vw, 8rem);
+      font-weight: 900;
+      letter-spacing: -0.085em;
+      line-height: 0.95;
+    }
+
+    &__title-line {
+      display: block;
+      white-space: nowrap;
+    }
+
+    &__description {
+      max-width: 43rem;
+      margin-top: 2rem;
+      font-size: clamp(0.88rem, 1.3vw, 1.05rem);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      line-height: 2;
+    }
+
+    &__actions {
+      display: grid;
+      grid-template-columns: minmax(20rem, 1.1fr) minmax(16rem, 0.9fr);
+      gap: 0.9rem;
+      width: min(100%, 48rem);
+      margin-top: 3rem;
+    }
+
+    &__phone,
+    &__instagram {
+      min-height: 9rem;
+      border: 1px solid rgba(23, 17, 12, 0.34);
+      border-radius: 0.35rem;
+      transition:
+        transform 0.3s ease,
+        background-color 0.3s ease,
+        color 0.3s ease;
+
+      &:hover {
+        transform: translateY(-0.35rem);
+      }
+    }
+
+    &__phone {
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      padding: 1.2rem;
+      color: var(--color-ivory);
+      background: var(--color-night);
+
+      &:hover {
+        background: var(--color-night-soft);
+      }
+    }
+
+    &__action-label,
+    &__hours {
+      color: rgba(255, 248, 233, 0.62);
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+    }
+
+    &__phone-number {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 4vw, 2.7rem);
+      font-weight: 900;
+      letter-spacing: -0.035em;
+      line-height: 1.2;
+    }
+
+    &__instagram {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.2rem 1.5rem;
+      background: rgba(255, 248, 233, 0.32);
+
+      &:hover {
+        background: var(--color-ivory);
+      }
+    }
+
+    &__instagram-icon {
+      width: 1.65rem;
+      height: 1.65rem;
+    }
+
+    &__instagram-label {
+      font-size: 0.8rem;
+      font-weight: 900;
+      text-align: left;
+    }
+
+    &__instagram-arrow {
+      font-size: 1.4rem;
+    }
+
+    &__piece {
+      position: absolute;
+      z-index: 1;
+      width: 0.55rem;
+      height: 1.3rem;
+      background: var(--color-ivory);
+      transform: rotate(24deg);
+
+      &--1 {
+        top: 16%;
+        left: 10%;
+      }
+
+      &--2 {
+        top: 24%;
+        right: 14%;
+        background: var(--color-night);
+        transform: rotate(-35deg);
+      }
+
+      &--3 {
+        bottom: 20%;
+        left: 18%;
+        width: 0.8rem;
+        background: var(--color-orange);
+        transform: rotate(66deg);
+      }
+
+      &--4 {
+        right: 8%;
+        bottom: 15%;
+        background: var(--color-night);
+        transform: rotate(16deg);
+      }
+
+      &--5 {
+        top: 12%;
+        left: 42%;
+        width: 0.7rem;
+        background: var(--color-orange);
+        transform: rotate(-58deg);
+      }
+
+      &--6 {
+        right: 36%;
+        bottom: 9%;
+        transform: rotate(48deg);
+      }
+    }
+  }
+
+  @media (max-width: 767px) {
+    .entry {
+      min-height: 48rem;
+
+      &__title {
+        font-size: clamp(2.65rem, 12.5vw, 4.5rem);
+      }
+
+      &__description {
+        max-width: 20rem;
+      }
+
+      &__actions {
+        grid-template-columns: 1fr;
+      }
+
+      &__phone,
+      &__instagram {
+        min-height: 7.5rem;
+      }
+    }
+  }
+</style>

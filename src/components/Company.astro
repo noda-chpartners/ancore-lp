@@ -1,0 +1,188 @@
+---
+interface Props {
+  content: {
+    name: string;
+    details: readonly {
+      label: string;
+      value: string;
+      href?: string;
+    }[];
+  };
+}
+
+const { content } = Astro.props;
+---
+
+<section class="company section" id="company">
+  <div class="company__inner container">
+    <div class="company__heading section-heading js-reveal">
+      <p class="eyebrow">COMPANY</p>
+      <h2 class="section-title">
+        <span class="title-line">株式会社Ancoreについて。</span>
+      </h2>
+      <p class="section-lead">
+        株式会社Ancoreの基本情報をご案内します。
+      </p>
+    </div>
+
+    <div class="company__content">
+      <div class="company__mark js-reveal" aria-hidden="true">
+        <span class="company__mark-letter">A</span>
+        <span class="company__mark-ring"></span>
+      </div>
+
+      <dl class="company__list js-reveal">
+        {
+          content.details.map((detail) => (
+            <div class="company__row">
+              <dt class="company__term">{detail.label}</dt>
+              <dd class="company__value">
+                {
+                  detail.href ? (
+                    <a class="company__link" href={detail.href}>
+                      {detail.value}
+                    </a>
+                  ) : (
+                    detail.value.split('\n').map((line) => (
+                      <span class="company__value-line">{line}</span>
+                    ))
+                  )
+                }
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  .company {
+    color: var(--color-night);
+    background:
+      radial-gradient(circle at 92% 85%, rgba(255, 197, 47, 0.32), transparent 28%),
+      var(--color-ivory);
+
+    &__heading {
+      :global(.eyebrow) {
+        color: var(--color-orange);
+      }
+
+      :global(.section-title) {
+        color: var(--color-night);
+        font-size: clamp(2.15rem, 5.7vw, 5.5rem);
+      }
+
+      :global(.section-lead) {
+        color: rgba(23, 17, 12, 0.65);
+      }
+    }
+
+    &__content {
+      display: grid;
+      grid-template-columns: minmax(15rem, 0.7fr) minmax(0, 1fr);
+      align-items: center;
+      gap: clamp(3rem, 8vw, 9rem);
+    }
+
+    &__mark {
+      position: relative;
+      display: grid;
+      aspect-ratio: 1;
+      place-items: center;
+      border-radius: 50%;
+      background: linear-gradient(145deg, var(--color-gold), var(--color-orange));
+      box-shadow: 0 28px 80px rgba(247, 91, 17, 0.24);
+    }
+
+    &__mark-letter {
+      font-family: var(--font-display);
+      font-size: clamp(8rem, 20vw, 16rem);
+      font-weight: 900;
+      letter-spacing: -0.12em;
+      line-height: 1;
+      transform: translateX(-0.04em);
+    }
+
+    &__mark-ring {
+      position: absolute;
+      inset: 9%;
+      border: 1px solid rgba(23, 17, 12, 0.32);
+      border-radius: 50%;
+
+      &::before,
+      &::after {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        background: rgba(23, 17, 12, 0.28);
+        content: "";
+        transform: translate(-50%, -50%);
+      }
+
+      &::before {
+        width: 112%;
+        height: 1px;
+      }
+
+      &::after {
+        width: 1px;
+        height: 112%;
+      }
+    }
+
+    &__list {
+      border-top: 1px solid rgba(23, 17, 12, 0.24);
+    }
+
+    &__row {
+      display: grid;
+      grid-template-columns: 8rem 1fr;
+      gap: 1.5rem;
+      padding: 1.4rem 0;
+      border-bottom: 1px solid rgba(23, 17, 12, 0.24);
+    }
+
+    &__term {
+      color: rgba(23, 17, 12, 0.55);
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+    }
+
+    &__value {
+      font-size: clamp(0.88rem, 1.2vw, 1rem);
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    &__value-line {
+      display: block;
+    }
+
+    &__link {
+      text-decoration: underline;
+      text-decoration-color: var(--color-orange);
+      text-underline-offset: 0.3em;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .company {
+      &__content {
+        grid-template-columns: 1fr;
+      }
+
+      &__mark {
+        width: min(72vw, 19rem);
+        margin-inline: auto;
+      }
+
+      &__row {
+        grid-template-columns: 1fr;
+        gap: 0.35rem;
+      }
+    }
+  }
+</style>

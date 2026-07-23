@@ -1,0 +1,374 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import ThreeStage from './ThreeStage.astro';
+
+interface Props {
+  content: {
+    image: ImageMetadata;
+    imageAlt: string;
+    eyebrow: string;
+    titleLines: readonly string[];
+    lead: string;
+    description: string;
+  };
+}
+
+const { content } = Astro.props;
+---
+
+<section class="hero" id="top">
+  <div class="hero__media" data-parallax-media>
+    <Image
+      class="hero__image"
+      src={content.image}
+      alt={content.imageAlt}
+      loading="eager"
+      quality={88}
+      widths={[640, 960, 1280, 1695]}
+      sizes="100vw"
+    />
+  </div>
+  <div class="hero__shade"></div>
+  <div class="hero__spotlight hero__spotlight--left"></div>
+  <div class="hero__spotlight hero__spotlight--right"></div>
+  <ThreeStage />
+
+  <div class="hero__content container">
+    <p class="hero__eyebrow js-hero-item">{content.eyebrow}</p>
+    <h1 class="hero__title js-hero-item">
+      {
+        content.titleLines.map((line, index) => (
+          <span class:list={['hero__title-line', { 'hero__title-line--accent': index === 1 }]}>
+            {line}
+          </span>
+        ))
+      }
+    </h1>
+    <div class="hero__copy js-hero-item">
+      <p class="hero__lead">{content.lead}</p>
+      <p class="hero__description">{content.description}</p>
+    </div>
+    <div class="hero__actions js-hero-item">
+      <a class="button button--primary hero__button" href="#about">Ancoreを知る</a>
+      <a class="button button--outline hero__button" href="#entry">採用について聞く</a>
+    </div>
+  </div>
+
+  <div class="hero__scroll" aria-hidden="true">
+    <span class="hero__scroll-label">SCROLL</span>
+    <span class="hero__scroll-line"></span>
+  </div>
+</section>
+
+<style lang="scss">
+  .hero {
+    position: relative;
+    display: grid;
+    min-height: 100svh;
+    align-items: end;
+    overflow: hidden;
+    background: var(--color-night);
+
+    &__media,
+    &__shade,
+    &__spotlight {
+      position: absolute;
+      inset: 0;
+    }
+
+    &__media {
+      z-index: 0;
+      height: 112%;
+      transform: scale(1.02);
+      will-change: transform;
+    }
+
+    &__image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 42%;
+      filter: saturate(0.84) contrast(1.04);
+    }
+
+    &__shade {
+      z-index: 1;
+      background:
+        linear-gradient(90deg, rgba(18, 13, 8, 0.94) 0%, rgba(18, 13, 8, 0.52) 52%, rgba(18, 13, 8, 0.12) 82%),
+        linear-gradient(0deg, var(--color-night) 0%, transparent 42%),
+        linear-gradient(180deg, rgba(18, 13, 8, 0.55) 0%, transparent 30%);
+    }
+
+    &__spotlight {
+      z-index: 2;
+      opacity: 0.45;
+      mix-blend-mode: screen;
+      pointer-events: none;
+
+      &--left {
+        background: conic-gradient(
+          from 18deg at 8% 0%,
+          transparent 0deg,
+          rgba(255, 197, 47, 0.22) 10deg,
+          transparent 22deg
+        );
+      }
+
+      &--right {
+        background: conic-gradient(
+          from 332deg at 92% 0%,
+          transparent 0deg,
+          rgba(255, 148, 24, 0.2) 12deg,
+          transparent 25deg
+        );
+      }
+    }
+
+    &__content {
+      position: relative;
+      z-index: 4;
+      padding-top: clamp(6.5rem, 14vh, 9rem);
+      padding-bottom: clamp(2.5rem, 7vh, 5rem);
+    }
+
+    &__eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      margin-bottom: 1.5rem;
+      color: var(--color-gold);
+      font-family: var(--font-display);
+      font-size: clamp(0.62rem, 0.9vw, 0.78rem);
+      font-weight: 800;
+      letter-spacing: 0.3em;
+
+      &::before {
+        width: 3.5rem;
+        height: 1px;
+        background: currentColor;
+        content: "";
+      }
+    }
+
+    &__title {
+      max-width: 100%;
+      color: var(--color-ivory);
+      font-family: var(--font-display);
+      font-size: clamp(2.65rem, 7.35vw, 7.15rem);
+      font-weight: 900;
+      letter-spacing: -0.075em;
+      line-height: 0.92;
+      text-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    &__title-line {
+      display: block;
+      white-space: nowrap;
+
+      &--accent {
+        width: fit-content;
+        margin-top: 0.12em;
+        color: transparent;
+        background: linear-gradient(105deg, #fff8e9 0%, var(--color-gold) 38%, var(--color-orange) 100%);
+        background-clip: text;
+        font-size: 1.18em;
+      }
+    }
+
+    &__copy {
+      display: grid;
+      gap: 0.25rem;
+      margin-top: clamp(1.5rem, 3vw, 2.5rem);
+    }
+
+    &__lead {
+      color: var(--color-ivory);
+      font-size: clamp(1rem, 1.65vw, 1.3rem);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+
+    &__description {
+      color: rgba(255, 248, 233, 0.7);
+      font-size: clamp(0.78rem, 1.1vw, 0.95rem);
+      letter-spacing: 0.06em;
+    }
+
+    &__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 2rem;
+    }
+
+    &__button {
+      min-width: 12.5rem;
+    }
+
+    &__scroll {
+      position: absolute;
+      z-index: 4;
+      right: clamp(1rem, 3vw, 3rem);
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    &__scroll-label {
+      color: rgba(255, 248, 233, 0.58);
+      font-family: var(--font-display);
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      writing-mode: vertical-rl;
+    }
+
+    &__scroll-line {
+      width: 1px;
+      height: 4.5rem;
+      overflow: hidden;
+      background: rgba(255, 248, 233, 0.22);
+
+      &::after {
+        display: block;
+        width: 100%;
+        height: 45%;
+        background: var(--color-gold);
+        content: "";
+        animation: scrollLine 1.9s ease-in-out infinite;
+      }
+    }
+  }
+
+  @keyframes scrollLine {
+    0% {
+      transform: translateY(-110%);
+    }
+
+    100% {
+      transform: translateY(240%);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .hero {
+      min-height: 100svh;
+
+      &__media {
+        height: 108%;
+      }
+
+      &__image {
+        object-position: 61% center;
+      }
+
+      &__shade {
+        background:
+          linear-gradient(90deg, rgba(18, 13, 8, 0.9) 0%, rgba(18, 13, 8, 0.35) 95%),
+          linear-gradient(0deg, var(--color-night) 0%, rgba(18, 13, 8, 0.45) 55%, transparent 85%);
+      }
+
+      &__content {
+        padding-top: 6.5rem;
+        padding-bottom: 2rem;
+      }
+
+      &__title {
+        font-size: clamp(2rem, 10.3vw, 3.3rem);
+      }
+
+      &__title-line--accent {
+        font-size: 1.26em;
+      }
+
+      &__description {
+        max-width: 19rem;
+      }
+
+      &__actions {
+        width: min(100%, 21rem);
+        margin-top: 1.35rem;
+      }
+
+      &__scroll {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: 767px) and (max-height: 700px) {
+    .hero {
+      &__content {
+        padding-top: 5.4rem;
+        padding-bottom: 1.15rem;
+      }
+
+      &__eyebrow {
+        margin-bottom: 0.85rem;
+      }
+
+      &__title {
+        font-size: clamp(1.9rem, 9.5vw, 2.85rem);
+      }
+
+      &__copy {
+        gap: 0.1rem;
+        margin-top: 1rem;
+      }
+
+      &__lead {
+        font-size: 0.9rem;
+      }
+
+      &__description {
+        font-size: 0.7rem;
+        line-height: 1.7;
+      }
+
+      &__actions {
+        gap: 0.55rem;
+        margin-top: 1rem;
+      }
+
+      &__button {
+        min-height: 3.15rem;
+      }
+    }
+  }
+
+  @media (min-width: 768px) and (max-height: 760px) {
+    .hero {
+      &__content {
+        padding-top: 5.75rem;
+        padding-bottom: 1.75rem;
+      }
+
+      &__title {
+        font-size: clamp(2.65rem, 6.4vw, 5.9rem);
+      }
+
+      &__copy {
+        margin-top: 1.25rem;
+      }
+
+      &__actions {
+        margin-top: 1.25rem;
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero {
+      &__media {
+        will-change: auto;
+      }
+
+      &__scroll-line::after {
+        animation: none;
+      }
+    }
+  }
+</style>
