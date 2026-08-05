@@ -123,6 +123,10 @@ const { content } = Astro.props;
     &.is-scrolled,
     &.is-menu-open {
       padding: 0.65rem 0;
+    }
+
+    /* backdrop-filter は fixed 子要素の包含ブロックを作るため、メニュー展開時は付けない */
+    &.is-scrolled:not(.is-menu-open) {
       background: rgba(18, 13, 8, 0.86);
       backdrop-filter: blur(18px);
     }
@@ -199,9 +203,14 @@ const { content } = Astro.props;
       height: 3.25rem;
       align-items: center;
       justify-content: center;
-      border: 1px solid rgba(255, 248, 233, 0.28);
+      border: 1px solid rgba(255, 248, 233, 0.55);
       border-radius: 50%;
       color: var(--color-ivory);
+      background: rgba(18, 13, 8, 0.92);
+      box-shadow:
+        0 0 0 1px rgba(18, 13, 8, 0.45),
+        0 10px 28px rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(16px);
     }
 
     &__menu-line {
@@ -259,8 +268,11 @@ const { content } = Astro.props;
       &__nav {
         position: fixed;
         inset: 0;
+        z-index: 1;
         display: grid;
         visibility: hidden;
+        width: 100vw;
+        height: 100dvh;
         place-items: center;
         padding: 6.5rem 2rem 3rem;
         opacity: 0;
