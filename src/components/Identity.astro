@@ -78,9 +78,9 @@ const { content } = Astro.props;
 
 <style lang="scss">
   .identity {
-    color: var(--color-night);
+    color: var(--color-ink);
     background:
-      radial-gradient(circle at 88% 8%, rgba(255, 197, 47, 0.22), transparent 22%),
+      radial-gradient(circle at 88% 8%, rgba(213, 170, 79, 0.22), transparent 22%),
       var(--color-ivory);
 
     &__marquee {
@@ -89,7 +89,7 @@ const { content } = Astro.props;
       left: 0;
       width: 100%;
       overflow: hidden;
-      color: rgba(247, 91, 17, 0.1);
+      color: rgba(63, 159, 179, 0.1);
       font-family: var(--font-display);
       font-size: clamp(4rem, 12vw, 11rem);
       font-weight: 900;
@@ -117,7 +117,7 @@ const { content } = Astro.props;
       padding-bottom: clamp(5rem, 10vw, 9rem);
 
       :global(.eyebrow) {
-        color: var(--color-orange);
+        color: var(--color-aqua-deep);
       }
     }
 
@@ -136,11 +136,11 @@ const { content } = Astro.props;
       align-items: baseline;
       gap: 1rem;
       padding-top: 2rem;
-      border-top: 1px solid rgba(23, 17, 12, 0.18);
+      border-top: 1px solid rgba(7, 10, 14, 0.18);
     }
 
     &__label {
-      color: var(--color-orange);
+      color: var(--color-aqua-deep);
       font-family: var(--font-display);
       font-size: 0.75rem;
       font-weight: 900;
@@ -182,7 +182,7 @@ const { content } = Astro.props;
       left: 0;
       width: 62%;
       height: 76%;
-      background: linear-gradient(145deg, var(--color-gold), var(--color-orange));
+      background: linear-gradient(145deg, var(--color-gold), var(--color-aqua));
       content: "";
     }
 
@@ -205,7 +205,7 @@ const { content } = Astro.props;
       position: absolute;
       right: 1rem;
       bottom: 0.1rem;
-      color: rgba(23, 17, 12, 0.62);
+      color: rgba(7, 10, 14, 0.62);
       font-family: var(--font-display);
       font-size: 0.58rem;
       font-weight: 800;
@@ -235,8 +235,8 @@ const { content } = Astro.props;
     &__conclusion {
       margin-top: 2rem;
       padding-top: 2rem;
-      border-top: 1px solid rgba(23, 17, 12, 0.16);
-      color: rgba(23, 17, 12, 0.72);
+      border-top: 1px solid rgba(7, 10, 14, 0.16);
+      color: rgba(7, 10, 14, 0.72);
       font-size: 0.9rem;
       line-height: 2.2;
     }

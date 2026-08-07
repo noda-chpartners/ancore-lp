@@ -26,7 +26,7 @@ const { content } = Astro.props;
         class="header__logo-image"
         src={content.logo.src}
         alt={content.logo.alt}
-        width={126}
+        width={112}
         quality={90}
       />
     </a>
@@ -127,7 +127,9 @@ const { content } = Astro.props;
 
     /* backdrop-filter は fixed 子要素の包含ブロックを作るため、メニュー展開時は付けない */
     &.is-scrolled:not(.is-menu-open) {
-      background: rgba(18, 13, 8, 0.86);
+      background: rgba(255, 253, 247, 0.9);
+      border-bottom: 1px solid rgba(32, 50, 56, 0.08);
+      box-shadow: 0 8px 30px rgba(63, 159, 179, 0.08);
       backdrop-filter: blur(18px);
     }
 
@@ -143,14 +145,14 @@ const { content } = Astro.props;
       position: relative;
       z-index: 2;
       display: block;
-      width: clamp(5.6rem, 8vw, 7.9rem);
+      width: clamp(4.6rem, 6.2vw, 6rem);
     }
 
     &__logo-image {
       display: block;
       width: 100%;
       height: auto;
-      filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.35));
+      filter: drop-shadow(0 8px 20px rgba(63, 159, 179, 0.16));
     }
 
     &__nav-list {
@@ -164,7 +166,7 @@ const { content } = Astro.props;
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      color: rgba(255, 248, 233, 0.82);
+      color: rgba(32, 50, 56, 0.82);
       font-size: 0.68rem;
       font-weight: 700;
       letter-spacing: 0.06em;
@@ -178,18 +180,18 @@ const { content } = Astro.props;
         min-height: 2.8rem;
         padding: 0.65rem 1.15rem;
         border-radius: 999px;
-        color: var(--color-night);
-        background: var(--color-gold);
+        color: var(--color-ink);
+        background: var(--gradient-brand);
 
         &:hover {
-          color: var(--color-night);
+          color: var(--color-ink);
           background: var(--color-ivory);
         }
       }
     }
 
     &__nav-number {
-      color: var(--color-amber);
+      color: var(--color-aqua-deep);
       font-family: var(--font-display);
       font-size: 0.54rem;
       letter-spacing: 0.08em;
@@ -203,13 +205,13 @@ const { content } = Astro.props;
       height: 3.25rem;
       align-items: center;
       justify-content: center;
-      border: 1px solid rgba(255, 248, 233, 0.55);
+      border: 1px solid rgba(63, 159, 179, 0.34);
       border-radius: 50%;
-      color: var(--color-ivory);
-      background: rgba(18, 13, 8, 0.92);
+      color: var(--color-ink);
+      background: rgba(255, 253, 247, 0.94);
       box-shadow:
-        0 0 0 1px rgba(18, 13, 8, 0.45),
-        0 10px 28px rgba(0, 0, 0, 0.45);
+        0 0 0 1px rgba(255, 255, 255, 0.6),
+        0 10px 28px rgba(63, 159, 179, 0.18);
       backdrop-filter: blur(16px);
     }
 
@@ -277,8 +279,9 @@ const { content } = Astro.props;
         padding: 6.5rem 2rem 3rem;
         opacity: 0;
         background:
-          radial-gradient(circle at 80% 10%, rgba(255, 148, 24, 0.2), transparent 36%),
-          var(--color-night);
+          radial-gradient(circle at 80% 10%, rgba(142, 216, 230, 0.3), transparent 36%),
+          radial-gradient(circle at 10% 80%, rgba(213, 170, 79, 0.16), transparent 34%),
+          var(--color-ivory);
         transform: translateY(-1rem);
         transition:
           opacity 0.35s ease,
@@ -299,7 +302,7 @@ const { content } = Astro.props;
       }
 
       &__nav-item {
-        border-bottom: 1px solid rgba(255, 248, 233, 0.13);
+        border-bottom: 1px solid rgba(32, 50, 56, 0.13);
       }
 
       &__nav-link {

@@ -71,10 +71,11 @@ const { content } = Astro.props;
     min-height: min(56rem, 90vh);
     place-items: center;
     overflow: hidden;
-    color: var(--color-night);
+    color: var(--color-ink);
     background:
-      radial-gradient(circle at 50% 75%, rgba(255, 248, 233, 0.52), transparent 28%),
-      linear-gradient(120deg, var(--color-gold), var(--color-amber) 58%, var(--color-orange));
+      radial-gradient(circle at 18% 22%, rgba(213, 170, 79, 0.2), transparent 30%),
+      radial-gradient(circle at 82% 74%, rgba(142, 216, 230, 0.3), transparent 34%),
+      linear-gradient(145deg, #ffffff 0%, var(--color-ivory) 54%, var(--color-pearl) 100%);
 
     &__beam {
       position: absolute;
@@ -82,7 +83,7 @@ const { content } = Astro.props;
       width: 46%;
       height: 130%;
       opacity: 0.42;
-      background: linear-gradient(180deg, rgba(255, 248, 233, 0.68), transparent 65%);
+      background: linear-gradient(180deg, rgba(213, 170, 79, 0.2), transparent 68%);
       filter: blur(2px);
       clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
       pointer-events: none;
@@ -94,6 +95,7 @@ const { content } = Astro.props;
 
       &--right {
         right: -5%;
+        background: linear-gradient(180deg, rgba(142, 216, 230, 0.28), transparent 68%);
         transform: rotate(12deg);
       }
     }
@@ -147,7 +149,7 @@ const { content } = Astro.props;
     &__phone,
     &__instagram {
       min-height: 9rem;
-      border: 1px solid rgba(23, 17, 12, 0.34);
+      border: 1px solid rgba(63, 159, 179, 0.24);
       border-radius: 0.35rem;
       transition:
         transform 0.3s ease,
@@ -164,17 +166,18 @@ const { content } = Astro.props;
       align-content: center;
       justify-items: center;
       padding: 1.2rem;
-      color: var(--color-ivory);
-      background: var(--color-night);
+      color: var(--color-ink);
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 18px 45px rgba(213, 170, 79, 0.12);
 
       &:hover {
-        background: var(--color-night-soft);
+        background: var(--color-cream);
       }
     }
 
     &__action-label,
     &__hours {
-      color: rgba(255, 248, 233, 0.62);
+      color: rgba(32, 50, 56, 0.62);
       font-size: 0.62rem;
       font-weight: 700;
       letter-spacing: 0.12em;
@@ -194,7 +197,7 @@ const { content } = Astro.props;
       align-items: center;
       gap: 1rem;
       padding: 1.2rem 1.5rem;
-      background: rgba(255, 248, 233, 0.32);
+      background: rgba(238, 249, 250, 0.88);
 
       &:hover {
         background: var(--color-ivory);
@@ -232,7 +235,7 @@ const { content } = Astro.props;
       &--2 {
         top: 24%;
         right: 14%;
-        background: var(--color-night);
+        background: var(--color-gold);
         transform: rotate(-35deg);
       }
 
@@ -240,14 +243,14 @@ const { content } = Astro.props;
         bottom: 20%;
         left: 18%;
         width: 0.8rem;
-        background: var(--color-orange);
+        background: var(--color-aqua);
         transform: rotate(66deg);
       }
 
       &--4 {
         right: 8%;
         bottom: 15%;
-        background: var(--color-night);
+        background: var(--color-gold);
         transform: rotate(16deg);
       }
 
@@ -255,7 +258,7 @@ const { content } = Astro.props;
         top: 12%;
         left: 42%;
         width: 0.7rem;
-        background: var(--color-orange);
+        background: var(--color-aqua);
         transform: rotate(-58deg);
       }
 

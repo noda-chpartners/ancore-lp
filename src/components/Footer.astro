@@ -25,7 +25,7 @@ const { content } = Astro.props;
           class="footer__logo"
           src={content.logo.src}
           alt={content.logo.alt}
-          width={180}
+          width={156}
           quality={90}
         />
       </a>
@@ -59,7 +59,9 @@ const { content } = Astro.props;
 <style lang="scss">
   .footer {
     padding: clamp(3.5rem, 8vw, 6.5rem) 0 1.5rem;
-    background: var(--color-night);
+    background:
+      radial-gradient(circle at 90% 0%, rgba(142, 216, 230, 0.18), transparent 34%),
+      var(--color-cream);
 
     &__top {
       display: flex;
@@ -67,12 +69,12 @@ const { content } = Astro.props;
       justify-content: space-between;
       gap: 2rem;
       padding-bottom: clamp(3rem, 7vw, 5rem);
-      border-bottom: 1px solid rgba(255, 248, 233, 0.15);
+      border-bottom: 1px solid rgba(32, 50, 56, 0.15);
     }
 
     &__logo-link {
       display: block;
-      width: clamp(8rem, 13vw, 11.25rem);
+      width: clamp(7rem, 10vw, 9.75rem);
     }
 
     &__logo {
@@ -81,7 +83,7 @@ const { content } = Astro.props;
     }
 
     &__statement {
-      color: rgba(255, 248, 233, 0.72);
+      color: rgba(32, 50, 56, 0.76);
       font-size: clamp(1rem, 2vw, 1.5rem);
       font-weight: 800;
       letter-spacing: -0.03em;
@@ -100,7 +102,7 @@ const { content } = Astro.props;
       align-items: center;
       gap: clamp(1rem, 3vw, 2.5rem);
       padding-top: 1.5rem;
-      color: rgba(255, 248, 233, 0.48);
+      color: rgba(32, 50, 56, 0.58);
       font-family: var(--font-display);
       font-size: 0.6rem;
       font-weight: 700;
@@ -129,7 +131,7 @@ const { content } = Astro.props;
       width: 2.25rem;
       height: 2.25rem;
       place-items: center;
-      border: 1px solid rgba(255, 248, 233, 0.24);
+      border: 1px solid rgba(63, 159, 179, 0.3);
       border-radius: 50%;
       font-size: 1rem;
     }

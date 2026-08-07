@@ -54,8 +54,8 @@ const { content } = Astro.props;
   .culture {
     padding-bottom: calc(var(--section-space) + 2rem);
     background:
-      radial-gradient(circle at 12% 10%, rgba(255, 148, 24, 0.16), transparent 28%),
-      var(--color-night);
+      radial-gradient(circle at 12% 10%, rgba(142, 216, 230, 0.22), transparent 28%),
+      linear-gradient(180deg, var(--color-ivory) 0%, #ffffff 100%);
 
     &__gallery {
       display: grid;
@@ -70,12 +70,13 @@ const { content } = Astro.props;
       position: relative;
       overflow: hidden;
       margin: 0;
-      background: var(--color-night-soft);
+      background: var(--color-cream);
 
       &::after {
         position: absolute;
         inset: 0;
-        border: 1px solid rgba(255, 248, 233, 0.12);
+        border: 1px solid rgba(32, 50, 56, 0.1);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
         content: "";
         pointer-events: none;
       }
@@ -137,7 +138,7 @@ const { content } = Astro.props;
       height: 2rem;
       place-items: center;
       border-radius: 50%;
-      color: var(--color-night);
+      color: var(--color-ink);
       background: var(--color-gold);
       font-family: var(--font-display);
       font-size: 0.55rem;

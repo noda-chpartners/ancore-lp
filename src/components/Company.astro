@@ -55,23 +55,23 @@ const { content } = Astro.props;
 
 <style lang="scss">
   .company {
-    color: var(--color-night);
+    color: var(--color-ink);
     background:
-      radial-gradient(circle at 92% 85%, rgba(255, 197, 47, 0.32), transparent 28%),
+      radial-gradient(circle at 92% 85%, rgba(213, 170, 79, 0.32), transparent 28%),
       var(--color-ivory);
 
     &__heading {
       :global(.eyebrow) {
-        color: var(--color-orange);
+        color: var(--color-aqua-deep);
       }
 
       :global(.section-title) {
-        color: var(--color-night);
+        color: var(--color-ink);
         font-size: clamp(2.15rem, 5.7vw, 5.5rem);
       }
 
       :global(.section-lead) {
-        color: rgba(23, 17, 12, 0.65);
+        color: rgba(7, 10, 14, 0.65);
       }
     }
 
@@ -83,7 +83,7 @@ const { content } = Astro.props;
 
     &__list {
       margin: 0 auto;
-      border-top: 1px solid rgba(23, 17, 12, 0.24);
+      border-top: 1px solid rgba(7, 10, 14, 0.24);
     }
 
     &__row {
@@ -91,11 +91,11 @@ const { content } = Astro.props;
       grid-template-columns: 8rem 1fr;
       gap: 1.5rem;
       padding: 1.4rem 0;
-      border-bottom: 1px solid rgba(23, 17, 12, 0.24);
+      border-bottom: 1px solid rgba(7, 10, 14, 0.24);
     }
 
     &__term {
-      color: rgba(23, 17, 12, 0.55);
+      color: rgba(7, 10, 14, 0.55);
       font-size: 0.74rem;
       font-weight: 800;
       letter-spacing: 0.1em;
@@ -113,7 +113,7 @@ const { content } = Astro.props;
 
     &__link {
       text-decoration: underline;
-      text-decoration-color: var(--color-orange);
+      text-decoration-color: var(--color-aqua-deep);
       text-underline-offset: 0.3em;
     }
   }

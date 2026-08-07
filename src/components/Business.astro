@@ -40,8 +40,10 @@ const { content } = Astro.props;
 
 <style lang="scss">
   .business {
-    color: var(--color-night);
-    background: var(--color-gold);
+    color: var(--color-ink);
+    background:
+      radial-gradient(circle at 88% 12%, rgba(142, 216, 230, 0.28), transparent 26%),
+      linear-gradient(135deg, var(--color-cream) 0%, #ffffff 58%, #eaf7f9 100%);
 
     &::before {
       position: absolute;
@@ -55,8 +57,8 @@ const { content } = Astro.props;
           -45deg,
           transparent 0,
           transparent 14px,
-          rgba(247, 91, 17, 0.18) 15px,
-          rgba(247, 91, 17, 0.18) 16px
+          rgba(63, 159, 179, 0.18) 15px,
+          rgba(63, 159, 179, 0.18) 16px
         );
       content: "";
       pointer-events: none;
@@ -66,21 +68,21 @@ const { content } = Astro.props;
       position: relative;
 
       :global(.eyebrow) {
-        color: var(--color-orange);
+        color: var(--color-aqua-deep);
       }
     }
 
     &__title {
-      color: var(--color-night);
+      color: var(--color-ink);
     }
 
     &__lead {
-      color: rgba(23, 17, 12, 0.68);
+      color: rgba(7, 10, 14, 0.68);
     }
 
     &__list {
       position: relative;
-      border-top: 1px solid rgba(23, 17, 12, 0.35);
+      border-top: 1px solid rgba(7, 10, 14, 0.35);
     }
 
     &__item {
@@ -90,14 +92,14 @@ const { content } = Astro.props;
       gap: 2rem;
       min-height: 8.5rem;
       padding: 1.25rem 0;
-      border-bottom: 1px solid rgba(23, 17, 12, 0.35);
+      border-bottom: 1px solid rgba(7, 10, 14, 0.35);
       transition:
         padding-left 0.35s ease,
         background-color 0.35s ease;
 
       &:hover {
         padding-left: 1.25rem;
-        background: rgba(255, 248, 233, 0.28);
+        background: rgba(255, 253, 247, 0.28);
       }
     }
 
@@ -125,7 +127,7 @@ const { content } = Astro.props;
       width: 3rem;
       height: 3rem;
       place-items: center;
-      border: 1px solid rgba(23, 17, 12, 0.42);
+      border: 1px solid rgba(7, 10, 14, 0.42);
       border-radius: 50%;
       font-size: 1.15rem;
     }

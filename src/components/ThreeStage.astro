@@ -17,10 +17,10 @@
     const confettiGeometry = new THREE.PlaneGeometry(0.1, 0.24);
     const dummy = new THREE.Object3D();
     const colors = [
-      new THREE.Color('#ffc52f'),
-      new THREE.Color('#ff9418'),
-      new THREE.Color('#f75b11'),
-      new THREE.Color('#fff8e9'),
+      new THREE.Color('#c79334'),
+      new THREE.Color('#e3bd5d'),
+      new THREE.Color('#3f9fb3'),
+      new THREE.Color('#8ed8e6'),
     ];
     const piecesPerColor = Math.ceil(pieceCount / colors.length);
     const confettiMaterials = colors.map(
@@ -83,20 +83,21 @@
       opacity: 0.85,
       vertexColors: true,
       depthWrite: false,
-      blending: THREE.AdditiveBlending,
+      blending: THREE.NormalBlending,
       toneMapped: false,
     });
     const sparkles = new THREE.Points(sparkleGeometry, sparkleMaterial);
 
     const ringMaterial = new THREE.MeshBasicMaterial({
-      color: '#ffc52f',
+      color: '#d5aa4f',
       transparent: true,
-      opacity: 0.22,
+      opacity: 0.3,
       depthWrite: false,
-      blending: THREE.AdditiveBlending,
+      blending: THREE.NormalBlending,
       toneMapped: false,
     });
     const ringSmallMaterial = ringMaterial.clone();
+    ringSmallMaterial.color.set('#8ed8e6');
     const ringGeometryLarge = new THREE.TorusGeometry(2.1, 0.008, 8, 120);
     const ringGeometrySmall = new THREE.TorusGeometry(1.45, 0.006, 8, 100);
     const ringLarge = new THREE.Mesh(ringGeometryLarge, ringMaterial);
@@ -196,7 +197,7 @@
       display: block;
       width: 100%;
       height: 100%;
-      mix-blend-mode: screen;
+      mix-blend-mode: multiply;
     }
   }
 </style>

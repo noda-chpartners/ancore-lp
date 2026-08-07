@@ -1,16 +1,17 @@
 :root {
-  --color-ink: #17110c;
-  --color-night: #120d08;
-  --color-night-soft: #21170d;
-  --color-ivory: #fff8e9;
-  --color-cream: #f6ead1;
-  --color-gold: #ffc52f;
-  --color-amber: #ff9418;
-  --color-orange: #f75b11;
-  --color-line: rgba(255, 248, 233, 0.2);
+  --color-ink: #203238;
+  --color-ivory: #fffdf7;
+  --color-cream: #f7f4ec;
+  --color-pearl: #eef9fa;
+  --color-gold: #d5aa4f;
+  --color-gold-light: #f3d98d;
+  --color-aqua: #8ed8e6;
+  --color-aqua-deep: #3f9fb3;
+  --color-line: rgba(32, 50, 56, 0.16);
+  --gradient-brand: linear-gradient(120deg, #f8e8b3 0%, #dfbb65 48%, #a9e2eb 100%);
   --font-sans: "Helvetica Neue", "Hiragino Kaku Gothic ProN", "Yu Gothic",
     "Meiryo", sans-serif;
-  --font-display: "Arial Narrow", "Helvetica Neue", "Hiragino Sans", sans-serif;
+  --font-display: "Times New Roman", "Yu Mincho", "Hiragino Mincho ProN", serif;
   --content-width: 1180px;
   --section-space: clamp(6rem, 12vw, 11rem);
 }
@@ -18,15 +19,15 @@
 .site-root {
   scroll-behavior: smooth;
   overflow-x: clip;
-  background: var(--color-night);
+  background: var(--color-ivory);
 }
 
 .site-body {
   min-width: 320px;
   margin: 0;
   overflow-x: clip;
-  color: var(--color-ivory);
-  background: var(--color-night);
+  color: var(--color-ink);
+  background: var(--color-ivory);
   font-family: var(--font-sans);
   font-feature-settings: "palt";
   line-height: 1.8;
@@ -85,7 +86,7 @@
 
 .section-title {
   max-width: 100%;
-  color: var(--color-ivory);
+  color: var(--color-ink);
   font-family: var(--font-display);
   font-size: clamp(2.5rem, 6.6vw, 6.5rem);
   font-weight: 900;
@@ -100,7 +101,7 @@
 
 .section-lead {
   max-width: 42rem;
-  color: rgba(255, 248, 233, 0.68);
+  color: rgba(32, 50, 56, 0.7);
   font-size: clamp(0.9rem, 1.3vw, 1.05rem);
   letter-spacing: 0.04em;
   line-height: 2;
@@ -143,20 +144,20 @@
 }
 
 .button--primary {
-  color: var(--color-night);
-  background: linear-gradient(120deg, var(--color-gold), var(--color-amber));
+  color: var(--color-ink);
+  background: var(--gradient-brand);
 }
 
 .button--outline {
-  border-color: rgba(255, 248, 233, 0.38);
-  color: var(--color-ivory);
-  background: rgba(18, 13, 8, 0.34);
+  border-color: rgba(32, 50, 56, 0.28);
+  color: var(--color-ink);
+  background: rgba(255, 253, 247, 0.78);
   backdrop-filter: blur(10px);
 }
 
 .button--outline:hover {
-  border-color: var(--color-gold);
-  color: var(--color-gold);
+  border-color: var(--color-aqua);
+  color: var(--color-aqua-deep);
 }
 
 .js-reveal {
