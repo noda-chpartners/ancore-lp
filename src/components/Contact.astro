@@ -1,0 +1,705 @@
+---
+interface Props {
+  content: {
+    eyebrow: string;
+    title: string;
+    inquiryTypes: readonly string[];
+    positions: readonly string[];
+    occupations: readonly string[];
+    conditions: readonly string[];
+    applicationFlow: string;
+    submitLabel: string;
+  };
+}
+
+const { content } = Astro.props;
+const formEndpoint = import.meta.env.PUBLIC_CONTACT_FORM_ENDPOINT?.trim() ?? '';
+---
+
+<section class="contact section" id="contact">
+  <div class="contact__accent contact__accent--gold" aria-hidden="true"></div>
+  <div class="contact__accent contact__accent--aqua" aria-hidden="true"></div>
+
+  <div class="contact__inner container">
+    <div class="contact__heading section-heading js-reveal">
+      <p class="eyebrow">{content.eyebrow}</p>
+      <h2 class="contact__title section-title">
+        <span class="title-line">{content.title}</span>
+      </h2>
+    </div>
+
+    <form
+      class="contact__form js-reveal"
+      action={formEndpoint || undefined}
+      method="post"
+      data-contact-form
+      data-form-ready={String(Boolean(formEndpoint))}
+    >
+      <fieldset class="contact__fieldset">
+        <legend class="contact__legend">
+          お問い合わせ種別
+          <span class="contact__required">必須</span>
+        </legend>
+        <div class="contact__choices contact__choices--type">
+          {
+            content.inquiryTypes.map((type, index) => (
+              <label class="contact__choice">
+                <input
+                  class="contact__choice-input"
+                  type="radio"
+                  name="お問い合わせ種別"
+                  value={type}
+                  required
+                  data-inquiry-type
+                />
+                <span class="contact__choice-mark" aria-hidden="true"></span>
+                <span class="contact__choice-label">{type}</span>
+              </label>
+            ))
+          }
+        </div>
+        <p class="contact__type-note">
+          「採用応募」を選択すると、応募に必要な項目が表示されます。
+        </p>
+      </fieldset>
+
+      <div class="contact__fields">
+        <div class="contact__field">
+          <label class="contact__label" for="contact-name">
+            お名前
+            <span class="contact__required">必須</span>
+          </label>
+          <input
+            class="contact__control"
+            id="contact-name"
+            type="text"
+            name="お名前"
+            autocomplete="name"
+            required
+          />
+        </div>
+
+        <div class="contact__field">
+          <label class="contact__label" for="contact-kana">
+            フリガナ
+            <span class="contact__required">必須</span>
+          </label>
+          <input
+            class="contact__control"
+            id="contact-kana"
+            type="text"
+            name="フリガナ"
+            required
+          />
+        </div>
+
+        <div class="contact__field">
+          <label class="contact__label" for="contact-email">
+            メールアドレス
+            <span class="contact__required">必須</span>
+          </label>
+          <input
+            class="contact__control"
+            id="contact-email"
+            type="email"
+            name="メールアドレス"
+            autocomplete="email"
+            inputmode="email"
+            required
+          />
+        </div>
+
+        <div class="contact__field">
+          <label class="contact__label" for="contact-tel">
+            お電話番号
+            <span class="contact__required">必須</span>
+          </label>
+          <input
+            class="contact__control"
+            id="contact-tel"
+            type="tel"
+            name="お電話番号"
+            autocomplete="tel"
+            inputmode="tel"
+            required
+          />
+        </div>
+
+        <div class="contact__field contact__field--wide">
+          <label class="contact__label" for="contact-message">
+            お問い合わせ内容
+            <span class="contact__required">必須</span>
+          </label>
+          <textarea
+            class="contact__control contact__control--textarea"
+            id="contact-message"
+            name="お問い合わせ内容"
+            rows="7"
+            required
+          ></textarea>
+        </div>
+      </div>
+
+      <fieldset
+        class="contact__recruitment"
+        id="contact-recruitment"
+        data-recruitment-fields
+        aria-hidden="true"
+        aria-live="polite"
+        disabled
+      >
+        <legend class="contact__recruitment-title">採用応募について</legend>
+
+        <fieldset class="contact__fieldset contact__fieldset--nested">
+          <legend class="contact__legend">
+            希望職種
+            <span class="contact__required">必須</span>
+          </legend>
+          <div class="contact__choices contact__choices--position">
+            {
+              content.positions.map((position) => (
+                <label class="contact__choice">
+                  <input
+                    class="contact__choice-input"
+                    type="radio"
+                    name="希望職種"
+                    value={position}
+                    data-recruit-required
+                  />
+                  <span class="contact__choice-mark" aria-hidden="true"></span>
+                  <span class="contact__choice-label">{position}</span>
+                </label>
+              ))
+            }
+          </div>
+        </fieldset>
+
+        <div class="contact__fields contact__fields--recruitment">
+          <div class="contact__field">
+            <label class="contact__label" for="contact-age">
+              年齢または生年月日
+              <span class="contact__required">必須</span>
+            </label>
+            <input
+              class="contact__control"
+              id="contact-age"
+              type="text"
+              name="年齢または生年月日"
+              data-recruit-required
+            />
+          </div>
+
+          <div class="contact__field">
+            <label class="contact__label" for="contact-occupation">
+              現在のご職業
+              <span class="contact__required">必須</span>
+            </label>
+            <select
+              class="contact__control contact__control--select"
+              id="contact-occupation"
+              name="現在のご職業"
+              data-recruit-required
+            >
+              <option class="contact__option" value="">選択してください</option>
+              {
+                content.occupations.map((occupation) => (
+                  <option class="contact__option" value={occupation}>{occupation}</option>
+                ))
+              }
+            </select>
+          </div>
+        </div>
+
+        <div class="contact__conditions">
+          <h3 class="contact__conditions-title">応募条件</h3>
+          <ul class="contact__conditions-list">
+            {
+              content.conditions.map((condition) => (
+                <li class="contact__condition">{condition}</li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="contact__flow">
+          <h3 class="contact__flow-title">ご応募後の流れ</h3>
+          <p class="contact__flow-text">{content.applicationFlow}</p>
+        </div>
+      </fieldset>
+
+      <div class="contact__submit-wrap">
+        <button class="contact__submit" type="submit">
+          <span class="contact__submit-label">{content.submitLabel}</span>
+          <span class="contact__submit-arrow" aria-hidden="true">→</span>
+        </button>
+        <p class="contact__status" data-form-status aria-live="polite"></p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<script>
+  const contactForm = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  const inquiryInputs = contactForm?.querySelectorAll<HTMLInputElement>('[data-inquiry-type]');
+  const recruitmentFields = contactForm?.querySelector<HTMLFieldSetElement>('[data-recruitment-fields]');
+  const recruitmentRequired = recruitmentFields?.querySelectorAll<HTMLInputElement | HTMLSelectElement>(
+    '[data-recruit-required]',
+  );
+  const formStatus = contactForm?.querySelector<HTMLElement>('[data-form-status]');
+
+  const updateRecruitmentFields = () => {
+    const selectedType = contactForm?.querySelector<HTMLInputElement>('[data-inquiry-type]:checked');
+    const isRecruitment = selectedType?.value === '採用応募';
+
+    if (recruitmentFields) {
+      recruitmentFields.classList.toggle('is-visible', isRecruitment);
+      recruitmentFields.disabled = !isRecruitment;
+      recruitmentFields.setAttribute('aria-hidden', String(!isRecruitment));
+    }
+
+    recruitmentRequired?.forEach((field) => {
+      field.required = isRecruitment;
+    });
+  };
+
+  inquiryInputs?.forEach((input) => {
+    input.addEventListener('change', updateRecruitmentFields);
+  });
+
+  contactForm?.addEventListener('submit', (event) => {
+    if (contactForm.dataset.formReady === 'true') return;
+
+    event.preventDefault();
+    if (!contactForm.reportValidity()) return;
+
+    if (formStatus) {
+      formStatus.textContent = '送信先の設定が必要です。';
+      formStatus.classList.add('is-error');
+    }
+  });
+
+  updateRecruitmentFields();
+</script>
+
+<style lang="scss">
+  .contact {
+    overflow: hidden;
+    color: var(--color-ink);
+    background:
+      radial-gradient(circle at 8% 12%, rgba(213, 170, 79, 0.16), transparent 28%),
+      radial-gradient(circle at 92% 72%, rgba(142, 216, 230, 0.24), transparent 32%),
+      linear-gradient(145deg, #ffffff 0%, var(--color-ivory) 52%, var(--color-pearl) 100%);
+
+    &__accent {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+
+      &--gold {
+        top: 7rem;
+        right: -8rem;
+        width: 22rem;
+        height: 22rem;
+        border: 1px solid rgba(213, 170, 79, 0.24);
+      }
+
+      &--aqua {
+        bottom: 8rem;
+        left: -10rem;
+        width: 28rem;
+        height: 28rem;
+        border: 1px solid rgba(63, 159, 179, 0.18);
+      }
+    }
+
+    &__inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: clamp(2.5rem, 6vw, 5rem);
+    }
+
+    &__heading {
+      position: relative;
+      max-width: 100%;
+      margin-bottom: 0;
+
+      :global(.eyebrow) {
+        color: var(--color-aqua-deep);
+      }
+    }
+
+    &__title {
+      color: var(--color-ink);
+      font-size: clamp(2.7rem, 7vw, 6.5rem);
+    }
+
+    &__form {
+      display: grid;
+      width: min(100%, 60rem);
+      margin-left: auto;
+      gap: clamp(2rem, 4vw, 3.5rem);
+      padding: clamp(1.5rem, 4vw, 3.5rem);
+      border: 1px solid rgba(63, 159, 179, 0.18);
+      border-radius: 1.5rem;
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: 0 28px 80px rgba(63, 159, 179, 0.1);
+      backdrop-filter: blur(16px);
+    }
+
+    &__fieldset,
+    &__recruitment {
+      min-width: 0;
+      padding: 0;
+      margin: 0;
+      border: 0;
+    }
+
+    &__legend,
+    &__label {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      color: var(--color-ink);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+    }
+
+    &__legend {
+      margin-bottom: 1rem;
+    }
+
+    &__required {
+      display: inline-grid;
+      min-height: 1.25rem;
+      place-items: center;
+      padding: 0.1rem 0.45rem;
+      border-radius: 999px;
+      color: #ffffff;
+      background: var(--color-aqua-deep);
+      font-size: 0.58rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      line-height: 1;
+    }
+
+    &__choices {
+      display: grid;
+      gap: 0.65rem;
+
+      &--type {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      &--position {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    &__choice {
+      position: relative;
+      display: flex;
+      min-height: 3.75rem;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.85rem 1rem;
+      border: 1px solid rgba(32, 50, 56, 0.16);
+      border-radius: 0.8rem;
+      background: rgba(255, 253, 247, 0.72);
+      cursor: pointer;
+      transition:
+        border-color 0.25s ease,
+        background-color 0.25s ease,
+        transform 0.25s ease;
+
+      &:hover,
+      &:focus-within {
+        border-color: var(--color-aqua-deep);
+        background: var(--color-pearl);
+        transform: translateY(-2px);
+      }
+    }
+
+    &__choice-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    &__choice-mark {
+      position: relative;
+      width: 1.1rem;
+      height: 1.1rem;
+      flex: 0 0 auto;
+      border: 1px solid rgba(32, 50, 56, 0.35);
+      border-radius: 50%;
+      background: #ffffff;
+    }
+
+    &__choice-input:checked + &__choice-mark {
+      border-color: var(--color-aqua-deep);
+      box-shadow: inset 0 0 0 0.28rem #ffffff;
+      background: var(--color-aqua-deep);
+    }
+
+    &__choice-input:focus-visible + &__choice-mark {
+      outline: 2px solid var(--color-gold);
+      outline-offset: 3px;
+    }
+
+    &__choice-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    &__type-note {
+      margin-top: 0.85rem;
+      color: rgba(32, 50, 56, 0.64);
+      font-size: 0.74rem;
+      line-height: 1.7;
+    }
+
+    &__fields {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.4rem 1rem;
+
+      &--recruitment {
+        margin-top: 2rem;
+      }
+    }
+
+    &__field {
+      display: grid;
+      gap: 0.7rem;
+
+      &--wide {
+        grid-column: 1 / -1;
+      }
+    }
+
+    &__control {
+      width: 100%;
+      min-height: 3.75rem;
+      padding: 0.75rem 1rem;
+      border: 1px solid rgba(32, 50, 56, 0.18);
+      border-radius: 0.7rem;
+      color: var(--color-ink);
+      background: #ffffff;
+      font: inherit;
+      font-size: 1rem;
+      transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+
+      &:focus {
+        border-color: var(--color-aqua-deep);
+        outline: 0;
+        box-shadow: 0 0 0 3px rgba(142, 216, 230, 0.25);
+      }
+
+      &--textarea {
+        min-height: 11rem;
+        resize: vertical;
+      }
+
+      &--select {
+        appearance: auto;
+      }
+    }
+
+    &__option {
+      color: var(--color-ink);
+    }
+
+    &__recruitment {
+      display: none;
+      padding-top: clamp(2rem, 4vw, 3.5rem);
+      border-top: 1px solid rgba(213, 170, 79, 0.28);
+
+      &.is-visible {
+        display: block;
+      }
+    }
+
+    &__recruitment-title {
+      margin-bottom: 2rem;
+      color: var(--color-gold);
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    &__fieldset--nested {
+      margin-top: 0;
+    }
+
+    &__conditions,
+    &__flow {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      border-radius: 1rem;
+    }
+
+    &__conditions {
+      border: 1px solid rgba(213, 170, 79, 0.22);
+      background: rgba(248, 232, 179, 0.2);
+    }
+
+    &__flow {
+      border: 1px solid rgba(63, 159, 179, 0.2);
+      background: rgba(238, 249, 250, 0.88);
+    }
+
+    &__conditions-title,
+    &__flow-title {
+      font-size: 0.9rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+    }
+
+    &__conditions-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.7rem 1.5rem;
+      margin-top: 1rem;
+    }
+
+    &__condition {
+      position: relative;
+      padding-left: 1.25rem;
+      color: rgba(32, 50, 56, 0.76);
+      font-size: 0.82rem;
+
+      &::before {
+        position: absolute;
+        top: 0.7em;
+        left: 0;
+        width: 0.42rem;
+        height: 0.42rem;
+        border-radius: 50%;
+        background: var(--color-gold);
+        content: "";
+      }
+    }
+
+    &__flow-text {
+      margin-top: 0.8rem;
+      color: rgba(32, 50, 56, 0.74);
+      font-size: 0.82rem;
+      line-height: 1.9;
+    }
+
+    &__submit-wrap {
+      display: grid;
+      justify-items: center;
+      gap: 0.8rem;
+    }
+
+    &__submit {
+      display: inline-flex;
+      width: min(100%, 24rem);
+      min-height: 4.5rem;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 1rem 2rem;
+      border: 1px solid rgba(213, 170, 79, 0.3);
+      border-radius: 999px;
+      color: var(--color-ink);
+      background: var(--gradient-brand);
+      box-shadow: 0 16px 40px rgba(213, 170, 79, 0.18);
+      font-size: 0.85rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      cursor: pointer;
+      transition:
+        box-shadow 0.3s ease,
+        transform 0.3s ease;
+
+      &:hover {
+        box-shadow: 0 20px 50px rgba(63, 159, 179, 0.22);
+        transform: translateY(-3px);
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--color-aqua-deep);
+        outline-offset: 4px;
+      }
+    }
+
+    &__submit-arrow {
+      font-size: 1.2rem;
+    }
+
+    &__status {
+      min-height: 1.5rem;
+      color: rgba(32, 50, 56, 0.7);
+      font-size: 0.78rem;
+
+      &.is-error {
+        color: #9a5d2f;
+      }
+    }
+  }
+
+  @media (max-width: 900px) {
+    .contact {
+      &__title {
+        font-size: clamp(2.15rem, 10.2vw, 3.25rem);
+      }
+
+      &__form {
+        width: 100%;
+      }
+    }
+  }
+
+  @media (max-width: 640px) {
+    .contact {
+      &__form {
+        gap: 2rem;
+        padding: 1.25rem;
+        border-radius: 1rem;
+      }
+
+      &__choices--type,
+      &__choices--position,
+      &__fields,
+      &__conditions-list {
+        grid-template-columns: 1fr;
+      }
+
+      &__field--wide {
+        grid-column: auto;
+      }
+
+      &__choice {
+        min-height: 3.5rem;
+      }
+
+      &__conditions,
+      &__flow {
+        padding: 1.25rem;
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .contact {
+      &__choice,
+      &__control,
+      &__submit {
+        transition: none;
+      }
+    }
+  }
+</style>

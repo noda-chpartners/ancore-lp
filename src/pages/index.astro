@@ -6,8 +6,10 @@ import Identity from '../components/Identity.astro';
 import Values from '../components/Values.astro';
 import Business from '../components/Business.astro';
 import Culture from '../components/Culture.astro';
+import Staff from '../components/Staff.astro';
 import Company from '../components/Company.astro';
 import Entry from '../components/Entry.astro';
+import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
 import MotionScripts from '../components/MotionScripts.astro';
 import { siteContent } from '../contents/content';
@@ -25,8 +27,10 @@ import { siteContent } from '../contents/content';
     <Values content={siteContent.values} />
     <Business content={siteContent.business} />
     <Culture content={siteContent.culture} />
+    <Staff content={siteContent.staff} />
     <Company content={siteContent.company} />
     <Entry content={siteContent.entry} />
+    <Contact content={siteContent.contact} />
   </main>
   <Footer content={siteContent.footer} />
   <MotionScripts />

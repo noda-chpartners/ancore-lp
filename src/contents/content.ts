@@ -9,6 +9,19 @@ import CultureImage06 from '../assets/images/item (6).jpg';
 import CultureImage07 from '../assets/images/item (7).jpg';
 import CultureImage08 from '../assets/images/item (8).jpg';
 import CultureImage09 from '../assets/images/item (9).jpg';
+import StaffImage01 from '../assets/images/staff/staff01.jpg';
+import StaffImage02 from '../assets/images/staff/staff02.jpg';
+import StaffImage03 from '../assets/images/staff/staff03.jpg';
+import StaffGallery01 from '../assets/images/staff/gallery-01.jpg';
+import StaffGallery02 from '../assets/images/staff/gallery-02.jpg';
+import StaffGallery03 from '../assets/images/staff/gallery-03.jpg';
+import StaffGallery04 from '../assets/images/staff/gallery-04.jpg';
+import StaffGallery05 from '../assets/images/staff/gallery-05.jpg';
+import StaffGallery06 from '../assets/images/staff/gallery-06.jpg';
+import StaffGallery07 from '../assets/images/staff/gallery-07.jpg';
+import StaffGallery08 from '../assets/images/staff/gallery-08.jpg';
+import StaffGallery09 from '../assets/images/staff/gallery-09.jpg';
+import StaffGallery10 from '../assets/images/staff/gallery-10.jpg';
 
 export const siteContent = {
   site: {
@@ -27,8 +40,9 @@ export const siteContent = {
       { label: '大切にすること', href: '#values' },
       { label: '事業内容', href: '#business' },
       { label: 'Ancoreの日常', href: '#culture' },
+      { label: 'メンバー紹介', href: '#staff' },
       { label: '会社情報', href: '#company' },
-      { label: '採用について聞く', href: '#entry', isButton: true },
+      { label: 'お問い合わせ', href: '#contact', isButton: true },
     ],
   },
   hero: {
@@ -129,6 +143,40 @@ export const siteContent = {
       { src: CultureImage09, alt: 'ボートで休日を過ごすAncoreのメンバー' },
     ],
   },
+  staff: {
+    eyebrow: 'OUR PEOPLE',
+    title: 'スタッフ紹介',
+    members: [
+      {
+        name: '伊藤珠伽',
+        role: '代表',
+        image: StaffImage03,
+        imageAlt: '代表 伊藤珠伽',
+      },
+      {
+        name: '瀬戸満乃理',
+        image: StaffImage01,
+        imageAlt: '瀬戸満乃理',
+      },
+      {
+        name: '長﨑一真',
+        image: StaffImage02,
+        imageAlt: '長﨑一真',
+      },
+    ],
+    gallery: [
+      StaffGallery01,
+      StaffGallery02,
+      StaffGallery03,
+      StaffGallery04,
+      StaffGallery05,
+      StaffGallery06,
+      StaffGallery07,
+      StaffGallery08,
+      StaffGallery09,
+      StaffGallery10,
+    ],
+  },
   company: {
     name: '株式会社Ancore',
     details: [
@@ -158,6 +206,36 @@ export const siteContent = {
       label: 'Instagramを見る',
       href: 'https://www.instagram.com/weare_ancore/?hl=ja',
     },
+  },
+  contact: {
+    eyebrow: 'CONTACT',
+    title: 'お問い合わせ',
+    inquiryTypes: ['パートナー募集', '採用応募', 'その他'],
+    positions: [
+      'SNS運用',
+      '動画編集',
+      'Webデザイン',
+      '人事・採用',
+      'インサイドセールス',
+      'その他',
+    ],
+    occupations: [
+      '会社員',
+      'アルバイト・パート',
+      '学生',
+      'フリーランス',
+      'その他',
+    ],
+    conditions: [
+      '学歴・経験不問',
+      '未経験歓迎',
+      '長期勤務が可能な方',
+      '新しいことに挑戦したい方',
+      '経験よりも意欲や人柄を重視しています',
+    ],
+    applicationFlow:
+      'ご応募内容を確認のうえ、選考を通過された方には、近日中に採用担当者よりご連絡いたします。',
+    submitLabel: '送信する',
   },
   footer: {
     logo: {

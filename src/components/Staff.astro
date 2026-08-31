@@ -1,0 +1,385 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+interface Props {
+  content: {
+    eyebrow: string;
+    title: string;
+    members: readonly {
+      name: string;
+      role?: string;
+      image: ImageMetadata;
+      imageAlt: string;
+    }[];
+    gallery: readonly ImageMetadata[];
+  };
+}
+
+const { content } = Astro.props;
+---
+
+<section class="staff section" id="staff">
+  <div class="staff__light staff__light--gold" aria-hidden="true"></div>
+  <div class="staff__light staff__light--aqua" aria-hidden="true"></div>
+
+  <div class="staff__inner container">
+    <div class="staff__heading section-heading js-reveal">
+      <p class="eyebrow">{content.eyebrow}</p>
+      <h2 class="staff__section-title section-title">
+        <span class="title-line">{content.title}</span>
+      </h2>
+    </div>
+
+    <div class="staff__members">
+      {
+        content.members.map((member, index) => (
+          <article
+            class:list={[
+              'staff__card',
+              'js-reveal',
+              { 'staff__card--representative': index === 0 },
+            ]}
+          >
+            <div class="staff__portrait-wrap">
+              <Image
+                class="staff__portrait"
+                src={member.image}
+                alt={member.imageAlt}
+                loading="lazy"
+                quality={88}
+                widths={[420, 640, 860]}
+                sizes="(max-width: 640px) 100vw, (max-width: 960px) 50vw, 33vw"
+              />
+              <span class="staff__card-number" aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+            </div>
+
+            <div class="staff__profile">
+              {member.role && <p class="staff__role">{member.role}</p>}
+              <h3 class="staff__name">{member.name}</h3>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="staff__marquee" aria-hidden="true">
+    <div class="staff__marquee-track">
+      {
+        [0, 1].map((groupIndex) => (
+          <div
+            class:list={[
+              'staff__marquee-group',
+              { 'staff__marquee-group--duplicate': groupIndex === 1 },
+            ]}
+          >
+            {content.gallery.map((image) => (
+              <figure class="staff__marquee-item">
+                <Image
+                  class="staff__marquee-image"
+                  src={image}
+                  alt=""
+                  loading="lazy"
+                  quality={78}
+                  widths={[360, 560, 720]}
+                  sizes="(max-width: 767px) 72vw, 26vw"
+                />
+              </figure>
+            ))}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  .staff {
+    overflow: hidden;
+    color: var(--color-ink);
+    background:
+      radial-gradient(circle at 8% 16%, rgba(213, 170, 79, 0.16), transparent 26%),
+      radial-gradient(circle at 92% 42%, rgba(142, 216, 230, 0.24), transparent 28%),
+      linear-gradient(180deg, #ffffff 0%, var(--color-ivory) 62%, var(--color-pearl) 100%);
+
+    &__light {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+
+      &--gold {
+        top: 10rem;
+        left: -8rem;
+        width: 22rem;
+        height: 22rem;
+        background: rgba(213, 170, 79, 0.13);
+      }
+
+      &--aqua {
+        top: 35%;
+        right: -10rem;
+        width: 28rem;
+        height: 28rem;
+        background: rgba(142, 216, 230, 0.18);
+      }
+    }
+
+    &__inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    &__heading {
+      :global(.eyebrow) {
+        color: var(--color-aqua-deep);
+      }
+    }
+
+    &__section-title {
+      color: var(--color-ink);
+      font-size: clamp(2.7rem, 7vw, 6.5rem);
+    }
+
+    &__members {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: start;
+      gap: clamp(1rem, 2.4vw, 2rem);
+    }
+
+    &__card {
+      position: relative;
+      min-width: 0;
+
+      &:nth-child(2) {
+        margin-top: clamp(2rem, 5vw, 5rem);
+      }
+
+      &:nth-child(3) {
+        margin-top: clamp(4rem, 9vw, 9rem);
+      }
+
+      &--representative {
+        .staff__portrait-wrap {
+          border-color: rgba(213, 170, 79, 0.5);
+          box-shadow: 0 24px 70px rgba(213, 170, 79, 0.15);
+        }
+
+        .staff__card-number {
+          background: var(--gradient-brand);
+        }
+      }
+    }
+
+    &__portrait-wrap {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 3 / 4;
+      border: 1px solid rgba(63, 159, 179, 0.22);
+      border-radius: 12rem 12rem 1.25rem 1.25rem;
+      background: var(--color-cream);
+      box-shadow: 0 24px 70px rgba(63, 159, 179, 0.11);
+    }
+
+    &__portrait {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 18%;
+      transition:
+        filter 0.55s ease,
+        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    &__card:hover &__portrait {
+      filter: saturate(1.06);
+      transform: scale(1.035);
+    }
+
+    &__card-number {
+      position: absolute;
+      right: 1rem;
+      bottom: 1rem;
+      display: grid;
+      width: 3rem;
+      height: 3rem;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.68);
+      border-radius: 50%;
+      color: var(--color-ink);
+      background: rgba(238, 249, 250, 0.9);
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      backdrop-filter: blur(10px);
+    }
+
+    &__profile {
+      position: relative;
+      display: grid;
+      gap: 0.45rem;
+      padding: 1.4rem 0.35rem 0;
+
+      &::before {
+        position: absolute;
+        top: 0;
+        left: 0.35rem;
+        width: 3rem;
+        height: 1px;
+        background: linear-gradient(90deg, var(--color-gold), var(--color-aqua-deep));
+        content: "";
+      }
+    }
+
+    &__role {
+      color: var(--color-aqua-deep);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+    }
+
+    &__name {
+      font-family: var(--font-display);
+      font-size: clamp(1.35rem, 2.4vw, 2rem);
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      line-height: 1.3;
+    }
+
+    &__marquee {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      margin-top: clamp(5rem, 11vw, 10rem);
+      overflow: hidden;
+      padding-block: 1rem;
+      border-top: 1px solid rgba(63, 159, 179, 0.12);
+      border-bottom: 1px solid rgba(213, 170, 79, 0.16);
+    }
+
+    &__marquee-track {
+      display: flex;
+      width: max-content;
+      gap: 1rem;
+      animation: staffMarquee 48s linear infinite;
+      will-change: transform;
+    }
+
+    &__marquee:hover &__marquee-track {
+      animation-play-state: paused;
+    }
+
+    &__marquee-group {
+      display: flex;
+      flex: 0 0 auto;
+      gap: 1rem;
+    }
+
+    &__marquee-item {
+      width: clamp(16rem, 27vw, 25rem);
+      flex: 0 0 auto;
+      overflow: hidden;
+      aspect-ratio: 3 / 2;
+      margin: 0;
+      border-radius: 0.7rem;
+      background: var(--color-cream);
+    }
+
+    &__marquee-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    &__marquee-item:hover &__marquee-image {
+      transform: scale(1.045);
+    }
+  }
+
+  @keyframes staffMarquee {
+    to {
+      transform: translateX(calc(-50% - 0.5rem));
+    }
+  }
+
+  @media (max-width: 900px) {
+    .staff {
+      &__members {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      &__card:nth-child(2) {
+        margin-top: 3rem;
+      }
+
+      &__card:nth-child(3) {
+        grid-column: 1 / -1;
+        width: min(100%, calc(50% - 0.5rem));
+        margin: 1rem auto 0;
+      }
+    }
+  }
+
+  @media (max-width: 640px) {
+    .staff {
+      &__section-title {
+        font-size: clamp(2.15rem, 10.2vw, 3.25rem);
+      }
+
+      &__members {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      &__card:nth-child(2),
+      &__card:nth-child(3) {
+        grid-column: auto;
+        width: 100%;
+        margin-top: 0;
+      }
+
+      &__portrait-wrap {
+        width: min(100%, 26rem);
+        margin-inline: auto;
+      }
+
+      &__profile {
+        width: min(100%, 26rem);
+        margin-inline: auto;
+      }
+
+      &__marquee-item {
+        width: min(72vw, 19rem);
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .staff {
+      &__portrait,
+      &__marquee-image {
+        transition: none;
+      }
+
+      &__marquee {
+        overflow-x: auto;
+        scrollbar-width: thin;
+      }
+
+      &__marquee-track {
+        animation: none;
+        will-change: auto;
+      }
+
+      &__marquee-group--duplicate {
+        display: none;
+      }
+    }
+  }
+</style>
