@@ -12,11 +12,12 @@
   --font-sans: "Helvetica Neue", "Hiragino Kaku Gothic ProN", "Yu Gothic",
     "Meiryo", sans-serif;
   --font-display: "Times New Roman", "Yu Mincho", "Hiragino Mincho ProN", serif;
-  --content-width: 1180px;
-  --section-space: clamp(6rem, 12vw, 11rem);
+  --content-width: 1240px;
+  --section-space: clamp(5.5rem, 10vw, 9.5rem);
 }
 
 .site-root {
+  font-size: 93.75%;
   scroll-behavior: smooth;
   overflow-x: clip;
   background: var(--color-ivory);
@@ -88,10 +89,10 @@
   max-width: 100%;
   color: var(--color-ink);
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 6.6vw, 6.5rem);
+  font-size: clamp(2.15rem, 5.2vw, 5.1rem);
   font-weight: 900;
   letter-spacing: -0.07em;
-  line-height: 0.98;
+  line-height: 1.02;
 }
 
 .title-line {
@@ -186,7 +187,7 @@
   }
 
   .section-title {
-    font-size: clamp(2.15rem, 11vw, 4rem);
+    font-size: clamp(1.9rem, 9vw, 3.2rem);
   }
 
   .button {

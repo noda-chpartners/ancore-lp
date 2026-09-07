@@ -1,207 +1,271 @@
 ---
+import { Icon } from 'astro-icon/components';
+
 interface Props {
-  content: readonly {
-    number: string;
-    name: string;
+  content: {
     title: string;
-    description: string;
-  }[];
+    subtitle: string;
+    tagline: string;
+    items: readonly {
+      number: string;
+      icon: string;
+      title: string;
+      description: string;
+    }[];
+  };
 }
 
 const { content } = Astro.props;
 ---
 
 <section class="values section" id="values">
-  <div class="values__glow values__glow--one"></div>
-  <div class="values__glow values__glow--two"></div>
+  <div class="values__wash values__wash--left" aria-hidden="true"></div>
+  <div class="values__wash values__wash--right" aria-hidden="true"></div>
 
-  <div class="container">
-    <div class="section-heading js-reveal">
-      <p class="eyebrow">OUR VALUES</p>
-      <h2 class="section-title">
-        <span class="title-line">挑戦を、歓声に変える</span>
-        <span class="title-line">5つの約束。</span>
-      </h2>
-      <p class="section-lead">
-        迷った時に立ち返る、Ancoreの行動指針。
-      </p>
+  <div class="values__inner">
+    <div class="values__heading js-reveal">
+      <h2 class="values__title">{content.title}</h2>
+      <p class="values__subtitle">{content.subtitle}</p>
     </div>
 
     <ol class="values__list">
       {
-        content.map((value) => (
+        content.items.map((value) => (
           <li class="values__item js-reveal">
-            <article class="values__card">
-              <div class="values__meta">
-                <span class="values__number">{value.number}</span>
-                <span class="values__name">{value.name}</span>
-              </div>
-              <h3 class="values__title">{value.title}</h3>
-              <p class="values__description">{value.description}</p>
-              <span class="values__spark" aria-hidden="true"></span>
-            </article>
+            <span class="values__number">{value.number}</span>
+            <span class="values__icon" aria-hidden="true">
+              <Icon class="values__icon-svg" name={value.icon} />
+            </span>
+            <h3 class="values__item-title">{value.title}</h3>
+            <p class="values__description">{value.description}</p>
           </li>
         ))
       }
     </ol>
+
+    <p class="values__tagline js-reveal">
+      <span>{content.tagline}</span>
+      <svg class="values__wave" viewBox="0 0 720 40" fill="none" aria-hidden="true">
+        <path
+          d="M8 22c72-16 118 10 188 4 78-7 112-22 188-16 86 7 118 24 196 12 42-6 86-18 132-8"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+        />
+      </svg>
+    </p>
   </div>
 </section>
 
 <style lang="scss">
   .values {
     overflow: hidden;
+    color: var(--color-ink);
     background:
-      linear-gradient(rgba(63, 159, 179, 0.07) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(63, 159, 179, 0.07) 1px, transparent 1px),
-      linear-gradient(145deg, #ffffff 0%, var(--color-pearl) 100%);
-    background-size: 72px 72px;
+      radial-gradient(circle at 8% 12%, rgba(142, 216, 230, 0.2), transparent 24%),
+      radial-gradient(circle at 94% 88%, rgba(142, 216, 230, 0.22), transparent 28%),
+      linear-gradient(180deg, #ffffff 0%, var(--color-ivory) 100%);
 
-    &__glow {
+    &__wash {
       position: absolute;
-      width: 28rem;
-      height: 28rem;
+      width: 22rem;
+      height: 16rem;
       border-radius: 50%;
-      opacity: 0.13;
-      background: var(--color-aqua);
-      filter: blur(110px);
+      opacity: 0.45;
+      filter: blur(48px);
       pointer-events: none;
 
-      &--one {
-        top: 5%;
-        right: -12rem;
+      &--left {
+        top: -3rem;
+        left: -6rem;
+        background: rgba(142, 216, 230, 0.55);
       }
 
-      &--two {
-        bottom: 3%;
-        left: -14rem;
+      &--right {
+        right: -5rem;
+        bottom: -2rem;
+        background: rgba(142, 216, 230, 0.5);
       }
     }
 
-    &__list {
+    &__inner {
       position: relative;
+      z-index: 1;
+      width: min(calc(100% - 2.5rem), 1280px);
+      margin-inline: auto;
+    }
+
+    &__heading {
       display: grid;
-      grid-template-columns: repeat(12, minmax(0, 1fr));
-      gap: 1rem;
-    }
-
-    &__item {
-      grid-column: span 4;
-
-      &:nth-child(4),
-      &:nth-child(5) {
-        grid-column: span 6;
-      }
-    }
-
-    &__card {
-      position: relative;
-      height: 100%;
-      min-height: 21rem;
-      overflow: hidden;
-      padding: clamp(1.5rem, 3vw, 2.5rem);
-      border: 1px solid rgba(63, 159, 179, 0.18);
-      background: rgba(255, 255, 255, 0.88);
-      box-shadow: 0 18px 50px rgba(63, 159, 179, 0.08);
-      transition:
-        transform 0.35s ease,
-        border-color 0.35s ease,
-        background-color 0.35s ease;
-
-      &:hover {
-        border-color: rgba(213, 170, 79, 0.58);
-        background: rgba(238, 249, 250, 0.96);
-        transform: translateY(-0.45rem);
-      }
-    }
-
-    &__meta {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: var(--color-gold);
-      font-family: var(--font-display);
-      font-size: 0.65rem;
-      font-weight: 900;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-    }
-
-    &__number {
-      font-size: 1rem;
+      justify-items: center;
+      gap: 0.85rem;
+      margin-bottom: clamp(2.75rem, 6vw, 4.5rem);
+      text-align: center;
     }
 
     &__title {
-      margin-top: clamp(4rem, 7vw, 6.5rem);
-      font-size: clamp(1.35rem, 2.2vw, 2rem);
-      font-weight: 900;
-      letter-spacing: -0.04em;
-    }
-
-    &__description {
-      max-width: 22rem;
-      margin-top: 0.75rem;
-      color: rgba(32, 50, 56, 0.68);
-      font-size: 0.85rem;
-      letter-spacing: 0.03em;
-    }
-
-    &__spark {
-      position: absolute;
-      right: -2.5rem;
-      bottom: -2.5rem;
-      width: 8rem;
-      height: 8rem;
-      border: 1px solid rgba(213, 170, 79, 0.24);
-      border-radius: 50%;
+      display: grid;
+      grid-template-columns: minmax(3rem, 1fr) auto minmax(3rem, 1fr);
+      align-items: center;
+      gap: 1.25rem;
+      width: min(100%, 42rem);
+      color: var(--color-ink);
+      font-family: var(--font-display);
+      font-size: clamp(1.55rem, 3.4vw, 2.45rem);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      line-height: 1;
 
       &::before,
       &::after {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        background: rgba(213, 170, 79, 0.32);
-        content: "";
-        transform: translate(-50%, -50%);
-      }
-
-      &::before {
-        width: 10rem;
         height: 1px;
+        background: rgba(7, 10, 14, 0.28);
+        content: "";
+      }
+    }
+
+    &__subtitle {
+      color: rgba(7, 10, 14, 0.78);
+      font-size: clamp(0.82rem, 1.2vw, 0.95rem);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+
+    &__list {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+
+    &__item {
+      display: grid;
+      justify-items: center;
+      align-content: start;
+      gap: 0.85rem;
+      padding: 0.4rem 1rem 0.2rem;
+      text-align: center;
+
+      &:not(:last-child) {
+        border-right: 1px solid rgba(7, 10, 14, 0.12);
       }
 
-      &::after {
-        width: 1px;
-        height: 10rem;
+      &:nth-child(odd) {
+        color: var(--color-gold);
       }
+
+      &:nth-child(even) {
+        color: var(--color-aqua-deep);
+      }
+    }
+
+    &__number {
+      font-family: var(--font-display);
+      font-size: clamp(1.15rem, 1.8vw, 1.55rem);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    &__icon {
+      display: grid;
+      width: 2.1rem;
+      height: 2.1rem;
+      place-items: center;
+    }
+
+    &__icon-svg {
+      width: 2.1rem;
+      height: 2.1rem;
+    }
+
+    &__item-title {
+      max-width: 9.5rem;
+      font-size: clamp(0.92rem, 1.15vw, 1.05rem);
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      line-height: 1.55;
+    }
+
+    &__description {
+      max-width: 11.5rem;
+      color: rgba(7, 10, 14, 0.72);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      line-height: 1.85;
+    }
+
+    &__tagline {
+      display: grid;
+      justify-items: center;
+      margin-top: clamp(3rem, 6vw, 4.5rem);
+      color: var(--color-gold);
+      font-family: var(--font-display);
+      font-size: clamp(1.3rem, 2.9vw, 2.15rem);
+      font-style: italic;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    &__wave {
+      width: min(100%, 36rem);
+      height: 2.4rem;
+      margin-top: 0.35rem;
+      color: var(--color-gold);
     }
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1100px) {
     .values {
-      &__item {
-        grid-column: span 6;
+      &__list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        row-gap: 2.5rem;
+      }
 
-        &:nth-child(5) {
-          grid-column: 4 / span 6;
-        }
+      &__item:nth-child(3) {
+        border-right: 0;
+      }
+
+      &__item:nth-child(n + 4) {
+        padding-top: 0.8rem;
+      }
+
+      &__description {
+        max-width: 14rem;
       }
     }
   }
 
-  @media (max-width: 560px) {
+  @media (max-width: 700px) {
     .values {
       &__list {
         grid-template-columns: 1fr;
+        row-gap: 0;
       }
 
-      &__item,
-      &__item:nth-child(4),
-      &__item:nth-child(5) {
-        grid-column: 1;
+      &__item {
+        padding: 1.35rem 0.4rem;
+        border-right: 0;
+
+        &:not(:last-child) {
+          border-bottom: 1px solid rgba(7, 10, 14, 0.1);
+        }
       }
 
-      &__card {
-        min-height: 17rem;
+      &__item:nth-child(3),
+      &__item:nth-child(n + 4) {
+        padding-top: 1.35rem;
+      }
+
+      &__item-title,
+      &__description {
+        max-width: 20rem;
+      }
+
+      &__icon,
+      &__icon-svg {
+        width: 2.1rem;
+        height: 2.1rem;
       }
     }
   }

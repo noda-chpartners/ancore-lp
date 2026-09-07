@@ -5,7 +5,7 @@ interface Props {
   content: {
     eyebrow: string;
     titleLines: readonly string[];
-    description: string;
+    subtitleLines: readonly string[];
     phone: {
       label: string;
       display: string;
@@ -43,7 +43,13 @@ const { content } = Astro.props;
         ))
       }
     </h2>
-    <p class="entry__description">{content.description}</p>
+    <p class="entry__description">
+      {
+        content.subtitleLines.map((line) => (
+          <span class="entry__description-line">{line}</span>
+        ))
+      }
+    </p>
 
     <div class="entry__actions">
       <a class="entry__phone" href={content.phone.href}>
@@ -118,7 +124,7 @@ const { content } = Astro.props;
     &__title {
       margin-top: 1.25rem;
       font-family: var(--font-display);
-      font-size: clamp(3rem, 8.5vw, 8rem);
+      font-size: clamp(2.15rem, 5.8vw, 5.1rem);
       font-weight: 900;
       letter-spacing: -0.085em;
       line-height: 0.95;
@@ -136,6 +142,10 @@ const { content } = Astro.props;
       font-weight: 700;
       letter-spacing: 0.04em;
       line-height: 2;
+    }
+
+    &__description-line {
+      display: block;
     }
 
     &__actions {
@@ -275,11 +285,15 @@ const { content } = Astro.props;
       min-height: 48rem;
 
       &__title {
-        font-size: clamp(2.65rem, 12.5vw, 4.5rem);
+        font-size: clamp(2rem, 9.2vw, 3.6rem);
+      }
+
+      &__title-line {
+        white-space: normal;
       }
 
       &__description {
-        max-width: 20rem;
+        max-width: 22rem;
       }
 
       &__actions {

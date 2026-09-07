@@ -4,6 +4,9 @@ import { Image } from 'astro:assets';
 
 interface Props {
   content: {
+    eyebrow: string;
+    titleLines: readonly string[];
+    leadLines: readonly string[];
     images: readonly {
       src: ImageMetadata;
       alt: string;
@@ -17,13 +20,20 @@ const { content } = Astro.props;
 <section class="culture section" id="culture">
   <div class="culture__heading container">
     <div class="section-heading js-reveal">
-      <p class="eyebrow">LIFE AT ANCORE</p>
+      <p class="eyebrow">{content.eyebrow}</p>
       <h2 class="section-title">
-        <span class="title-line">本気のそばには、</span>
-        <span class="title-line">いつも仲間がいる。</span>
+        {
+          content.titleLines.map((line) => (
+            <span class="title-line">{line}</span>
+          ))
+        }
       </h2>
       <p class="section-lead">
-        挑戦する時間も、笑い合う時間も。写真で見るAncoreの日常。
+        {
+          content.leadLines.map((line) => (
+            <span class="culture__lead-line">{line}</span>
+          ))
+        }
       </p>
     </div>
   </div>
@@ -57,10 +67,14 @@ const { content } = Astro.props;
       radial-gradient(circle at 12% 10%, rgba(142, 216, 230, 0.22), transparent 28%),
       linear-gradient(180deg, var(--color-ivory) 0%, #ffffff 100%);
 
+    &__lead-line {
+      display: block;
+    }
+
     &__gallery {
       display: grid;
       grid-template-columns: repeat(12, minmax(0, 1fr));
-      grid-auto-rows: 3.8vw;
+      grid-auto-rows: 3.15vw;
       gap: 1rem;
       width: min(calc(100% - 2rem), 1440px);
       margin-inline: auto;
@@ -112,12 +126,17 @@ const { content } = Astro.props;
       &--8 {
         grid-area: 16 / 5 / span 5 / span 5;
       }
+
+      &--9 {
+        grid-area: 16 / 10 / span 5 / span 3;
+      }
     }
 
     &__image {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center 40%;
       transition:
         transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
         filter 0.5s ease;
@@ -125,7 +144,7 @@ const { content } = Astro.props;
 
     &__item:hover &__image {
       filter: saturate(1.15);
-      transform: scale(1.045);
+      transform: scale(1.02);
     }
 
     &__index {
@@ -148,6 +167,10 @@ const { content } = Astro.props;
 
   @media (max-width: 767px) {
     .culture {
+      :global(.title-line) {
+        white-space: normal;
+      }
+
       &__gallery {
         display: flex;
         width: 100%;
@@ -163,9 +186,9 @@ const { content } = Astro.props;
       }
 
       &__item {
-        width: min(76vw, 22rem);
+        width: min(68vw, 18.5rem);
         flex: 0 0 auto;
-        aspect-ratio: 4 / 5;
+        aspect-ratio: 3 / 4;
         scroll-snap-align: center;
       }
     }

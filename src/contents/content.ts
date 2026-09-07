@@ -1,14 +1,15 @@
 import Logo from '../assets/images/logo.png';
-import HeroImage from '../assets/images/item (1).jpg';
-import OfficePortrait from '../assets/images/item (10).jpg';
-import CultureImage02 from '../assets/images/item (2).jpg';
-import CultureImage03 from '../assets/images/item (3).jpg';
-import CultureImage04 from '../assets/images/item (4).jpg';
-import CultureImage05 from '../assets/images/item (5).jpg';
-import CultureImage06 from '../assets/images/item (6).jpg';
-import CultureImage07 from '../assets/images/item (7).jpg';
-import CultureImage08 from '../assets/images/item (8).jpg';
-import CultureImage09 from '../assets/images/item (9).jpg';
+import HeroImage from '../assets/images/hero02.jpg';
+import OfficePortrait from '../assets/images/about.jpg';
+import CultureImage01 from '../assets/images/life-01.jpg';
+import CultureImage02 from '../assets/images/life-02.jpg';
+import CultureImage03 from '../assets/images/life-03.jpg';
+import CultureImage04 from '../assets/images/life-04.jpg';
+import CultureImage05 from '../assets/images/life-05.jpg';
+import CultureImage06 from '../assets/images/life-06.jpg';
+import CultureImage07 from '../assets/images/life-07.jpg';
+import CultureImage08 from '../assets/images/life-08.jpg';
+import CultureImage09 from '../assets/images/life-09.jpg';
 import StaffImage01 from '../assets/images/staff/staff01.jpg';
 import StaffImage02 from '../assets/images/staff/staff02.jpg';
 import StaffImage03 from '../assets/images/staff/staff03.jpg';
@@ -57,19 +58,38 @@ export const siteContent = {
   identity: {
     mission: {
       label: 'Mission',
-      title: 'もう一度、本気になれる瞬間を創る。',
+      titleLines: ['その挑戦を、', 'カタチに。'],
+      subtitleLines: [
+        'やりたいことがある人も、',
+        'まだ見つかっていない人も。',
+      ],
+      descriptionBlocks: [
+        ['一歩踏み出すきっかけと、', '挑戦を実現できる環境をつくる。'],
+        [
+          '一人ひとりが自分の可能性を広げ、',
+          '描いた未来をカタチにできる場所をつくります。',
+        ],
+      ],
     },
     vision: {
       label: 'Vision',
       title: '人生に、もう一度熱狂を。',
+      subtitleLines: [
+        '「やってみたい」を、「できる」に。',
+        '「なりたい」を、現実に。',
+      ],
+      descriptionLines: [
+        '挑戦を、挑戦だけで終わらせない。',
+        '一人ひとりが自分の可能性を形にし、',
+        '望む未来を実現できる社会をつくる。',
+      ],
     },
     philosophy: {
       label: 'Philosophy',
-      title: '本気で挑戦することの、すべてを。',
-      lines: [
-        '本気で挑戦するから、悔しい。',
-        '本気で挑戦するから、嬉しい。',
-        '本気で挑戦するから、仲間との絆が生まれる。',
+      title: '一人の挑戦が、誰かの勇気になる。',
+      subtitleLines: [
+        '挑戦する姿は、誰かの背中を押す。',
+        'そして、その一歩がまた次の挑戦につながっていく',
       ],
       conclusion:
         '私たちは、全力で挑戦することの楽しさを伝え、人生でもう一度熱狂できる場所を創り続けます。',
@@ -77,38 +97,49 @@ export const siteContent = {
       imageAlt: 'Ancoreのオフィスで働くメンバー',
     },
   },
-  values: [
-    {
-      number: '01',
-      name: 'Challenge',
-      title: '挑戦する選択を。',
-      description: '挑戦しない後悔より、挑戦する選択を。',
-    },
-    {
-      number: '02',
-      name: 'Growth',
-      title: '自分を超え続ける。',
-      description: '昨日の自分を超え続ける。',
-    },
-    {
-      number: '03',
-      name: 'Trust',
-      title: '信頼を何より大切に。',
-      description: '仲間・お客様との信頼を何より大切にする。',
-    },
-    {
-      number: '04',
-      name: 'Gratitude',
-      title: '期待を超える。',
-      description: '感謝を忘れず、期待を超える。',
-    },
-    {
-      number: '05',
-      name: 'Encore',
-      title: '何度でも挑戦する。',
-      description: '一度きりで終わらせない。失敗しても、何度でも挑戦する。',
-    },
-  ],
+  values: {
+    title: 'VALUES',
+    subtitle: 'バリュー（私たちが大切にすること）',
+    tagline: '挑戦が、未来をつくる。',
+    items: [
+      {
+        number: '01',
+        icon: 'mdi:run',
+        title: 'まず、やってみる。',
+        description: '考えるだけで終わらず、行動する。',
+      },
+      {
+        number: '02',
+        icon: 'mdi:book-open-page-variant',
+        title: '学び続ける。',
+        description: '変化を恐れず、自分自身をアップデートし続ける。',
+      },
+      {
+        number: '03',
+        icon: 'mdi:handshake',
+        title: '人を信じる。',
+        description: '今できることだけではなく、その人のこれからの可能性を見る。',
+      },
+      {
+        number: '04',
+        icon: 'mdi:summit',
+        title: '最後までやり切る。',
+        description: 'うまくいかない時も逃げず、決めたことに向き合う。',
+      },
+      {
+        number: '05',
+        icon: 'mdi:heart',
+        title: '人を大切にする。',
+        description: '仲間、出会い、支えてくれる人への感謝を忘れない。',
+      },
+      {
+        number: '06',
+        icon: 'mdi:account-group',
+        title: '次の人につなぐ。',
+        description: '自分が成長して終わりではなく、得た経験や学びを次の人へつなぐ。',
+      },
+    ],
+  },
   business: [
     {
       number: '01',
@@ -132,20 +163,42 @@ export const siteContent = {
     },
   ],
   culture: {
+    eyebrow: 'LIFE AT ANCORE',
+    titleLines: ['夢中になれる毎日が、', 'ここにある。'],
+    leadLines: [
+      '挑戦したり、笑ったり、楽しんだり。',
+      '私たちの“いつもの毎日”を、少しだけ。',
+    ],
     images: [
-      { src: CultureImage02, alt: 'Ancoreのメンバー2名' },
-      { src: CultureImage03, alt: 'オフィスで会話を交わすメンバー' },
-      { src: CultureImage04, alt: '笑顔で話すAncoreのメンバー' },
-      { src: CultureImage05, alt: 'パソコンを囲んで仕事をするメンバー' },
-      { src: CultureImage06, alt: '窓辺で街を眺めるAncoreのメンバー' },
-      { src: CultureImage07, alt: '海辺で過ごすAncoreのメンバー' },
-      { src: CultureImage08, alt: 'オフィスで過ごすAncoreのメンバー3名' },
-      { src: CultureImage09, alt: 'ボートで休日を過ごすAncoreのメンバー' },
+      { src: CultureImage01, alt: 'テラスで笑い合うAncoreのメンバー' },
+      { src: CultureImage02, alt: 'オフィスでセルフィーを撮るメンバー' },
+      { src: CultureImage03, alt: 'ラウンジで作業するメンバー' },
+      { src: CultureImage04, alt: '運動会で笑顔を見せるメンバー' },
+      { src: CultureImage05, alt: '食事を囲んで笑うAncoreのメンバー' },
+      { src: CultureImage06, alt: 'アイスを楽しむAncoreのメンバー' },
+      { src: CultureImage07, alt: 'オフィスで微笑むAncoreのメンバー' },
+      { src: CultureImage08, alt: '自動販売機の前でポーズするメンバー' },
+      { src: CultureImage09, alt: 'オフィスで談笑するメンバー3名' },
     ],
   },
   staff: {
     eyebrow: 'OUR PEOPLE',
     title: 'スタッフ紹介',
+    message: {
+      label: '代表挨拶',
+      paragraphs: [
+        '私自身、最初からやりたいことが明確だったわけでも、特別な力があったわけでもありません。',
+        'さまざまな仕事や挑戦を経験する中で、環境やきっかけ一つで、人は想像以上に変われることを実感してきました。',
+        'だからこそAncoreは、「やってみたい」という気持ちを、可能性のままで終わらせない会社でありたいと思っています。',
+        '仕事は、ただ生活のためにするものではなく、自分の成長や可能性にワクワクできるもの。\nそんな「仕事って楽しい」と思える人を、一人でも多く増やしていきたい。',
+        'そして、目の前の一人ひとりの挑戦に向き合い、その挑戦をカタチにしていく。',
+        '一人の挑戦が、また誰かの一歩につながっていく。\nそんな未来を、Ancoreからつくっていきます。',
+      ],
+      signOff: {
+        title: '株式会社Ancore代表取締役',
+        name: '伊藤珠伽',
+      },
+    },
     members: [
       {
         name: '伊藤珠伽',
@@ -155,13 +208,15 @@ export const siteContent = {
       },
       {
         name: '瀬戸満乃理',
+        role: 'Team Manager',
         image: StaffImage01,
-        imageAlt: '瀬戸満乃理',
+        imageAlt: 'Team Manager 瀬戸満乃理',
       },
       {
         name: '長﨑一真',
+        role: 'Field Manager',
         image: StaffImage02,
-        imageAlt: '長﨑一真',
+        imageAlt: 'Field Manager 長﨑一真',
       },
     ],
     gallery: [
@@ -193,9 +248,11 @@ export const siteContent = {
   },
   entry: {
     eyebrow: 'JOIN OUR STAGE',
-    titleLines: ['次の歓声を、', 'ともにつくろう。'],
-    description:
-      'Ancoreの考え方に共感し、もっと知りたいと思った方は、お電話でご連絡ください。Instagramでは日々の様子をご覧いただけます。',
+    titleLines: ['ここから、', 'あなたの挑戦が', '始まる。'],
+    subtitleLines: [
+      'やりたいことがある人も、まだ見つかっていない人も。',
+      'まずは、ここから一歩踏み出してみませんか。',
+    ],
     phone: {
       label: '電話で採用について聞く',
       display: '080-4854-5503',
