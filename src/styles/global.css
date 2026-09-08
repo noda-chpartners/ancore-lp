@@ -19,14 +19,14 @@
 .site-root {
   font-size: 93.75%;
   scroll-behavior: smooth;
-  overflow-x: clip;
+  overflow-x: hidden;
   background: var(--color-ivory);
 }
 
 .site-body {
   min-width: 320px;
   margin: 0;
-  overflow-x: clip;
+  overflow-x: hidden;
   color: var(--color-ink);
   background: var(--color-ivory);
   font-family: var(--font-sans);
@@ -41,7 +41,6 @@
 
 .site-main {
   position: relative;
-  overflow: clip;
 }
 
 .container {

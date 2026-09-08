@@ -74,6 +74,50 @@
           scrub: 0.7,
         },
       });
+
+      const gallery = document.querySelector<HTMLElement>('[data-staff-gallery]');
+      const galleryTrack = document.querySelector<HTMLElement>('[data-staff-gallery-track]');
+
+      if (gallery && galleryTrack) {
+        const syncGalleryPin = () => {
+          const header = document.querySelector<HTMLElement>('[data-header]');
+          gallery.style.height = `${window.innerHeight}px`;
+          gallery.style.paddingTop = `${(header?.offsetHeight ?? 90) + 8}px`;
+        };
+
+        const getGalleryDistance = () =>
+          Math.max(0, galleryTrack.scrollWidth - gallery.clientWidth);
+
+        syncGalleryPin();
+
+        gsap.to(galleryTrack, {
+          x: () => -getGalleryDistance(),
+          ease: 'none',
+          scrollTrigger: {
+            trigger: gallery,
+            scroller: window,
+            start: 'top top',
+            end: () => `+=${Math.max(getGalleryDistance(), 1)}`,
+            pin: true,
+            scrub: 0.45,
+            invalidateOnRefresh: true,
+            anticipatePin: 1,
+            onEnter: syncGalleryPin,
+            onEnterBack: syncGalleryPin,
+          },
+        });
+
+        window.addEventListener('resize', () => {
+          syncGalleryPin();
+          ScrollTrigger.refresh();
+        });
+
+        galleryTrack.querySelectorAll('img').forEach((image) => {
+          if (!image.complete) {
+            image.addEventListener('load', () => ScrollTrigger.refresh(), { once: true });
+          }
+        });
+      }
     });
 
     document.addEventListener('astro:before-swap', () => context.revert(), {

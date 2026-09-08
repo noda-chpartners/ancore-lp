@@ -89,30 +89,21 @@ const { content } = Astro.props;
     </div>
   </div>
 
-  <div class="staff__marquee" aria-hidden="true">
-    <div class="staff__marquee-track">
+  <div class="staff__gallery" data-staff-gallery>
+    <div class="staff__gallery-track" data-staff-gallery-track>
       {
-        [0, 1].map((groupIndex) => (
-          <div
-            class:list={[
-              'staff__marquee-group',
-              { 'staff__marquee-group--duplicate': groupIndex === 1 },
-            ]}
-          >
-            {content.gallery.map((image) => (
-              <figure class="staff__marquee-item">
-                <Image
-                  class="staff__marquee-image"
-                  src={image}
-                  alt=""
-                  loading="lazy"
-                  quality={78}
-                  widths={[360, 560, 720]}
-                  sizes="(max-width: 767px) 72vw, 26vw"
-                />
-              </figure>
-            ))}
-          </div>
+        content.gallery.map((image, index) => (
+          <figure class="staff__gallery-item">
+            <Image
+              class="staff__gallery-image"
+              src={image}
+              alt={`Ancoreの日常 ${String(index + 1).padStart(2, '0')}`}
+              loading="eager"
+              quality={78}
+              widths={[360, 560, 720]}
+              sizes="(max-width: 767px) 72vw, 22vw"
+            />
+          </figure>
         ))
       }
     </div>
@@ -121,7 +112,7 @@ const { content } = Astro.props;
 
 <style lang="scss">
   .staff {
-    overflow: hidden;
+    padding-bottom: 0;
     color: var(--color-ink);
     background:
       radial-gradient(circle at 8% 16%, rgba(213, 170, 79, 0.16), transparent 26%),
@@ -154,6 +145,7 @@ const { content } = Astro.props;
     &__inner {
       position: relative;
       z-index: 1;
+      padding-bottom: clamp(2.5rem, 5vw, 4rem);
     }
 
     &__heading {
@@ -325,36 +317,31 @@ const { content } = Astro.props;
       line-height: 1.3;
     }
 
-    &__marquee {
+    &__gallery {
       position: relative;
       z-index: 1;
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
       width: 100%;
-      margin-top: clamp(5rem, 11vw, 10rem);
+      height: 100vh;
+      height: 100svh;
+      margin: 0;
       overflow: hidden;
-      padding-block: 1rem;
-      border-top: 1px solid rgba(63, 159, 179, 0.12);
-      border-bottom: 1px solid rgba(213, 170, 79, 0.16);
+      padding: 5.75rem 0 0;
+      background: var(--color-pearl);
     }
 
-    &__marquee-track {
+    &__gallery-track {
       display: flex;
+      align-items: center;
       width: max-content;
       gap: 1rem;
-      animation: staffMarquee 48s linear infinite;
+      padding-inline: max(1.25rem, calc((100vw - var(--content-width)) / 2));
       will-change: transform;
     }
 
-    &__marquee:hover &__marquee-track {
-      animation-play-state: paused;
-    }
-
-    &__marquee-group {
-      display: flex;
-      flex: 0 0 auto;
-      gap: 1rem;
-    }
-
-    &__marquee-item {
+    &__gallery-item {
       width: clamp(14rem, 22vw, 20rem);
       flex: 0 0 auto;
       overflow: hidden;
@@ -364,7 +351,7 @@ const { content } = Astro.props;
       background: var(--color-cream);
     }
 
-    &__marquee-image {
+    &__gallery-image {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -372,14 +359,8 @@ const { content } = Astro.props;
       transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    &__marquee-item:hover &__marquee-image {
+    &__gallery-item:hover &__gallery-image {
       transform: scale(1.02);
-    }
-  }
-
-  @keyframes staffMarquee {
-    to {
-      transform: translateX(calc(-50% - 0.5rem));
     }
   }
 
@@ -433,8 +414,12 @@ const { content } = Astro.props;
         margin-inline: auto;
       }
 
-      &__marquee-item {
-        width: min(64vw, 16rem);
+      &__gallery {
+        padding-top: 5.15rem;
+      }
+
+      &__gallery-item {
+        width: min(68vw, 16rem);
       }
     }
   }
@@ -442,22 +427,20 @@ const { content } = Astro.props;
   @media (prefers-reduced-motion: reduce) {
     .staff {
       &__portrait,
-      &__marquee-image {
+      &__gallery-image {
         transition: none;
       }
 
-      &__marquee {
+      &__gallery {
+        height: auto;
+        min-height: 0;
+        padding: 1.25rem;
         overflow-x: auto;
         scrollbar-width: thin;
       }
 
-      &__marquee-track {
-        animation: none;
+      &__gallery-track {
         will-change: auto;
-      }
-
-      &__marquee-group--duplicate {
-        display: none;
       }
     }
   }
