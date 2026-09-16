@@ -12,6 +12,7 @@
     "astro": "node scripts/astro.mjs"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
     "@iconify-json/mdi": "^1.2.3",
     "@iconify-json/simple-icons": "^1.2.91",
     "astro": "^7.1.3",

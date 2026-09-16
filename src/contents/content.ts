@@ -30,6 +30,9 @@ export const siteContent = {
     description:
       '株式会社Ancoreの採用サイト。もう一度、本気になれる瞬間を創る。全力で挑戦することの楽しさを伝え、人生でもう一度熱狂できる場所を創り続けます。',
     ogImage: '/ogp.png',
+    ogImageAlt: '株式会社Ancore 採用サイト｜人生に、もう一度熱狂を。',
+    ogImageWidth: 1200,
+    ogImageHeight: 628,
   },
   header: {
     logo: {
