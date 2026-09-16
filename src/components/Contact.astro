@@ -13,7 +13,9 @@ interface Props {
 }
 
 const { content } = Astro.props;
-const formEndpoint = import.meta.env.PUBLIC_CONTACT_FORM_ENDPOINT?.trim() ?? '';
+const formEndpoint =
+  import.meta.env.PUBLIC_CONTACT_FORM_ENDPOINT?.trim() ||
+  'https://formspree.io/f/xppwaodp';
 ---
 
 <section class="contact section" id="contact">
@@ -30,11 +32,25 @@ const formEndpoint = import.meta.env.PUBLIC_CONTACT_FORM_ENDPOINT?.trim() ?? '';
 
     <form
       class="contact__form js-reveal"
-      action={formEndpoint || undefined}
+      action={formEndpoint}
       method="post"
       data-contact-form
       data-form-ready={String(Boolean(formEndpoint))}
     >
+      <input type="hidden" name="_subject" value="【Ancore】お問い合わせ" />
+      <input type="hidden" name="_replyto" data-replyto />
+      <label class="contact__honeypot" for="contact-gotcha">
+        この欄は空のままにしてください
+        <input
+          id="contact-gotcha"
+          type="text"
+          name="_gotcha"
+          tabindex="-1"
+          autocomplete="off"
+        />
+      </label>
+
+      <div class="contact__body" data-form-body>
       <fieldset class="contact__fieldset">
         <legend class="contact__legend">
           お問い合わせ種別
@@ -232,7 +248,25 @@ const formEndpoint = import.meta.env.PUBLIC_CONTACT_FORM_ENDPOINT?.trim() ?? '';
           <span class="contact__submit-label">{content.submitLabel}</span>
           <span class="contact__submit-arrow" aria-hidden="true">→</span>
         </button>
-        <p class="contact__status" data-form-status aria-live="polite"></p>
+        <p class="contact__alert" data-form-alert role="alert" hidden></p>
+      </div>
+      </div>
+
+      <div
+        class="contact__complete"
+        data-form-complete
+        hidden
+        tabindex="-1"
+      >
+        <p class="contact__complete-eyebrow">THANK YOU</p>
+        <p class="contact__complete-title">送信が完了しました。</p>
+        <p class="contact__complete-text">
+          お問い合わせありがとうございました。<br />
+          担当者より、近日中にご連絡いたします。
+        </p>
+        <button class="contact__complete-reset" type="button" data-form-reset>
+          別のお問い合わせをする
+        </button>
       </div>
     </form>
   </div>
@@ -245,7 +279,6 @@ const formEndpoint = import.meta.env.PUBLIC_CONTACT_FORM_ENDPOINT?.trim() ?? '';
   const recruitmentRequired = recruitmentFields?.querySelectorAll<HTMLInputElement | HTMLSelectElement>(
     '[data-recruit-required]',
   );
-  const formStatus = contactForm?.querySelector<HTMLElement>('[data-form-status]');
 
   const updateRecruitmentFields = () => {
     const selectedType = contactForm?.querySelector<HTMLInputElement>('[data-inquiry-type]:checked');
@@ -262,19 +295,102 @@ const formEndpoint = import.meta.env.PUBLIC_CONTACT_FORM_ENDPOINT?.trim() ?? '';
     });
   };
 
+  const formBody = contactForm?.querySelector<HTMLElement>('[data-form-body]');
+  const formComplete = contactForm?.querySelector<HTMLElement>('[data-form-complete]');
+  const formAlert = contactForm?.querySelector<HTMLElement>('[data-form-alert]');
+  const formReset = contactForm?.querySelector<HTMLButtonElement>('[data-form-reset]');
+  const submitButton = contactForm?.querySelector<HTMLButtonElement>('.contact__submit');
+  const submitLabel = submitButton?.querySelector<HTMLElement>('.contact__submit-label');
+  const defaultSubmitLabel = submitLabel?.textContent ?? '送信する';
+
+  const showAlert = (message: string) => {
+    if (!formAlert) return;
+    formAlert.hidden = false;
+    formAlert.textContent = message;
+  };
+
+  const hideAlert = () => {
+    if (!formAlert) return;
+    formAlert.hidden = true;
+    formAlert.textContent = '';
+  };
+
+  const showComplete = () => {
+    contactForm?.classList.add('is-complete');
+    if (formBody) formBody.hidden = true;
+    if (formComplete) {
+      formComplete.hidden = false;
+      formComplete.focus();
+      formComplete.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
+
+  const showForm = () => {
+    contactForm?.classList.remove('is-complete');
+    if (formBody) formBody.hidden = false;
+    if (formComplete) formComplete.hidden = true;
+    hideAlert();
+    contactForm?.querySelector<HTMLElement>('[data-inquiry-type]')?.focus();
+  };
+
+  const setSubmitting = (isSubmitting: boolean) => {
+    if (submitButton) {
+      submitButton.disabled = isSubmitting;
+    }
+    if (submitLabel) {
+      submitLabel.textContent = isSubmitting ? '送信中です…' : defaultSubmitLabel;
+    }
+  };
+
   inquiryInputs?.forEach((input) => {
     input.addEventListener('change', updateRecruitmentFields);
   });
 
-  contactForm?.addEventListener('submit', (event) => {
-    if (contactForm.dataset.formReady === 'true') return;
+  formReset?.addEventListener('click', () => {
+    contactForm?.reset();
+    updateRecruitmentFields();
+    showForm();
+  });
 
+  contactForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
+    hideAlert();
     if (!contactForm.reportValidity()) return;
 
-    if (formStatus) {
-      formStatus.textContent = '送信先の設定が必要です。';
-      formStatus.classList.add('is-error');
+    const endpoint = contactForm.getAttribute('action')?.trim();
+    if (!endpoint || contactForm.dataset.formReady !== 'true') {
+      showAlert('送信先の設定が必要です。時間をおいて再度お試しください。');
+      return;
+    }
+
+    const replyTo = contactForm.querySelector<HTMLInputElement>('[data-replyto]');
+    const email = contactForm.querySelector<HTMLInputElement>('#contact-email');
+    if (replyTo && email) {
+      replyTo.value = email.value;
+    }
+
+    setSubmitting(true);
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: {
+          Accept: 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Formspree request failed');
+      }
+
+      contactForm.reset();
+      updateRecruitmentFields();
+      showComplete();
+    } catch {
+      showAlert('送信に失敗しました。時間をおいて再度お試しください。');
+    } finally {
+      setSubmitting(false);
     }
   });
 
@@ -336,6 +452,7 @@ const formEndpoint = import.meta.env.PUBLIC_CONTACT_FORM_ENDPOINT?.trim() ?? '';
     }
 
     &__form {
+      position: relative;
       display: grid;
       width: min(100%, 60rem);
       margin-left: auto;
@@ -346,6 +463,15 @@ const formEndpoint = import.meta.env.PUBLIC_CONTACT_FORM_ENDPOINT?.trim() ?? '';
       background: rgba(255, 255, 255, 0.86);
       box-shadow: 0 28px 80px rgba(63, 159, 179, 0.1);
       backdrop-filter: blur(16px);
+    }
+
+    &__body {
+      display: grid;
+      gap: inherit;
+
+      &[hidden] {
+        display: none;
+      }
     }
 
     &__fieldset,
@@ -420,6 +546,16 @@ const formEndpoint = import.meta.env.PUBLIC_CONTACT_FORM_ENDPOINT?.trim() ?? '';
         background: var(--color-pearl);
         transform: translateY(-2px);
       }
+    }
+
+    &__honeypot {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      white-space: nowrap;
     }
 
     &__choice-input {
@@ -634,19 +770,95 @@ const formEndpoint = import.meta.env.PUBLIC_CONTACT_FORM_ENDPOINT?.trim() ?? '';
         outline: 2px solid var(--color-aqua-deep);
         outline-offset: 4px;
       }
+
+      &:disabled {
+        cursor: wait;
+        opacity: 0.7;
+        transform: none;
+      }
     }
 
     &__submit-arrow {
       font-size: 1.2rem;
     }
 
-    &__status {
-      min-height: 1.5rem;
-      color: rgba(32, 50, 56, 0.7);
-      font-size: 0.78rem;
+    &__alert {
+      width: min(100%, 24rem);
+      padding: 0.9rem 1rem;
+      border: 1px solid rgba(154, 93, 47, 0.28);
+      border-radius: 0.8rem;
+      color: #7a3f18;
+      background: rgba(248, 232, 179, 0.45);
+      font-size: 0.82rem;
+      font-weight: 700;
+      line-height: 1.7;
+      text-align: center;
 
-      &.is-error {
-        color: #9a5d2f;
+      &[hidden] {
+        display: none;
+      }
+    }
+
+    &__complete {
+      display: grid;
+      justify-items: center;
+      gap: 1rem;
+      padding: clamp(2rem, 6vw, 4.5rem) 1rem;
+      text-align: center;
+      outline: none;
+
+      &[hidden] {
+        display: none;
+      }
+    }
+
+    &__complete-eyebrow {
+      color: var(--color-aqua-deep);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.22em;
+    }
+
+    &__complete-title {
+      color: var(--color-ink);
+      font-family: var(--font-display);
+      font-size: clamp(1.7rem, 4vw, 2.6rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.3;
+    }
+
+    &__complete-text {
+      max-width: 28rem;
+      color: rgba(32, 50, 56, 0.72);
+      font-size: 0.95rem;
+      font-weight: 700;
+      line-height: 2;
+    }
+
+    &__complete-reset {
+      display: inline-flex;
+      min-height: 3.5rem;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.75rem;
+      padding: 0.85rem 1.6rem;
+      border: 1px solid rgba(63, 159, 179, 0.28);
+      border-radius: 999px;
+      color: var(--color-aqua-deep);
+      background: #ffffff;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+
+      &:hover {
+        background: var(--color-pearl);
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--color-aqua-deep);
+        outline-offset: 4px;
       }
     }
   }
